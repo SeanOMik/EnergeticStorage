@@ -86,8 +86,6 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
         Map<ItemStack, Integer> items = openSystem.getAllItems();
         if (openSearches.containsKey(player.getUniqueId())) {
             items = openSearches.get(player.getUniqueId());
-
-            player.sendMessage("Contains search");
         }
 
         for (int i = 10; i < 44; i++) {
@@ -246,29 +244,37 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             } else if (slot == 49) { // Search
                 new AnvilGUI.Builder()
                         .onComplete((plr, text) -> {
-                            Map<ItemStack, Integer> items = openSystem.getAllItems();
-                            Map<ItemStack, Integer> search = new HashMap<>();
-                            for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
-                                ItemStack item = entry.getKey();
-                                ItemMeta itemMeta = item.getItemMeta();
-                                int amount = entry.getValue();
+                            if (text != null && !text.isEmpty()) {
+                                Map<ItemStack, Integer> items = openSystem.getAllItems();
+                                Map<ItemStack, Integer> search = new HashMap<>();
+                                for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
+                                    ItemStack item = entry.getKey();
+                                    ItemMeta itemMeta = item.getItemMeta();
+                                    int amount = entry.getValue();
 
-                                text = text.toLowerCase();
-                                List<String> lore = itemMeta.getLore();
-                                if (Utils.listStringContainsString(lore, text) || itemMeta.getDisplayName().toLowerCase().contains(text) || item.getType().toString().toLowerCase().contains(text)) {
-                                    search.put(item, amount);
+                                    text = text.toLowerCase();
+                                    List<String> lore = itemMeta.getLore();
+                                    if (Utils.listStringContainsString(lore, text) || itemMeta.getDisplayName().toLowerCase().contains(text) || item.getType().toString().toLowerCase().contains(text) || item.getType().toString().toLowerCase().replace("_", " ").contains(text)) {
+                                        search.put(item, amount);
+                                    }
                                 }
+
+                                openSearches.put(plr.getUniqueId(), search);
+
+                                Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
+                                    openInventory(plr, openSystem);
+                                }, (long) 0.5);
+                            } else {
+                                openSearches.remove(plr.getUniqueId());
+
+                                Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
+                                    openInventory(plr, openSystem);
+                                }, (long) 0.5);
                             }
 
-                            openSearches.put(plr.getUniqueId(), search);
-
-                            Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), ()-> {
-                                openInventory(player, openSystem);
-                                //initializeItems(player, openSystem);
-                            }, (long) 0.5);
-
                             return AnvilGUI.Response.close();
-                        }).text("Enter Item name")
+                        })
+                        .text("Enter Item name")
                         .item(new ItemStack(Material.PLAYER_HEAD))
                         .title("Search Terminal.")
                         .plugin(EnergeticStorage.getPlugin())
