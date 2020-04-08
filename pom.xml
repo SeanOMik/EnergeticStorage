@@ -92,10 +92,6 @@
             <layout>default</layout>
         </repository>
         <repository>
-            <id>maven-repository</id>
-            <url>file:///${project.basedir}/maven-repository</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
