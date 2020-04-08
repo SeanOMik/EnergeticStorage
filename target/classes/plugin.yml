@@ -1,0 +1,37 @@
+name: EnergeticStorage
+version: 0.1-SNAPSHOT
+main: net.seanomik.energeticstorage.EnergeticStorage
+api-version: 1.15
+authors: [SeanOMik]
+commands:
+  esgive:
+    aliases: [egive]
+    description: Give a Energetic Storage item.
+    usage: /esgive
+permissions:
+  energeticstorage.*:
+    description: All Energetic Storage permissions.
+    default: op
+    children:
+      energeticstorage.esgive: true
+      energeticstorage.esgive.others: true
+      energeticstorage.system.open.untrusted: true
+      energeticstorage.system.create: true
+      energeticstorage.system.destroy.untrusted: true
+  energeticstorage.esgive:
+    description: Give Energetic Storage items.
+    default: op
+    children:
+      energeticstorage.esgive.others: true
+  energeticstorage.esgive.others:
+    description: Give Energetic Storage items to other players.
+    default: op
+  energeticstorage.system.open.untrusted:
+    description: Gives the player permission to open untrusted systems.
+    default: op
+  energeticstorage.system.create:
+    description: Permission for creating new Energetic Storage.
+    default: op
+  energeticstorage.system.destroy.untrusted:
+    description: Permission for destroying an ES System that the player is not trusted in.
+    default: op
