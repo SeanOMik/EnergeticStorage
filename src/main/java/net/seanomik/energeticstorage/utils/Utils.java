@@ -104,8 +104,9 @@ public class Utils {
     }
 
     public static boolean listStringContainsString(List<String> list, String string) {
+        string = string.toLowerCase();
         for (String str : list) {
-            if (str.contains(string)) {
+            if (str.toLowerCase().contains(string)) {
                 return true;
             }
         }

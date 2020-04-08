@@ -5,9 +5,12 @@ import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import net.seanomik.energeticstorage.utils.Reference;
 import net.seanomik.energeticstorage.utils.Utils;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +19,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -27,6 +31,7 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
 
     private Map<UUID, ESSystem> openSystems = new HashMap<>();
     private Map<UUID, Integer> openPages = new HashMap<>();
+    private Map<UUID, Map<ItemStack, Integer>> openSearches = new HashMap<>();
 
     public ESTerminalGUI() {
         globalInv = Bukkit.createInventory(this, 9*6, title);
@@ -54,7 +59,6 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
     private void initializeItems(Player player, ESSystem openSystem) {
         // Only initialize the items for the players inventory, not all of them.
         Inventory inv = player.getOpenInventory().getTopInventory();
-        //ESSystem openSystem = openSystems.get(player.getUniqueId());
 
         for (int i = 0; i <9*6; i++) {
             inv.setItem(i, createGuiItem(Material.BLACK_STAINED_GLASS_PANE, ""));
@@ -78,8 +82,14 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             pageIndex = openPages.get(player.getUniqueId());
         }
 
-        // Fill items
+        // Fill items with the searching items if there is a search
         Map<ItemStack, Integer> items = openSystem.getAllItems();
+        if (openSearches.containsKey(player.getUniqueId())) {
+            items = openSearches.get(player.getUniqueId());
+
+            player.sendMessage("Contains search");
+        }
+
         for (int i = 10; i < 44; i++) {
             // Ignore the borders
             if (i == 18 || i == 27 || i == 36 || i == 17 || i == 26 || i == 35) {
@@ -191,16 +201,19 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
 
-        if (inventory == null || inventory.getHolder() == null || inventory.getHolder() != this) {
-            return;
-        } else {
+        if (inventory.getHolder() != null && inventory.getHolder() == this) {
             Player player = (Player) event.getPlayer();
             PlayersFile.savePlayerSystem(openSystems.get(player.getUniqueId()));
 
+            // Check if the closing inventory is not just opening the search menu
             Bukkit.getScheduler().runTaskLaterAsynchronously(EnergeticStorage.getPlugin(), () -> {
-                openSystems.remove(player);
-                openPages.remove(player);
-            }, (long) 0.1);
+                InventoryView view = player.getOpenInventory();
+                if (!view.getTitle().equals("Search Terminal.") && !view.getTitle().equals(title)) {
+                    openSystems.remove(player.getUniqueId());
+                    openPages.remove(player.getUniqueId());
+                    openSearches.remove(player.getUniqueId());
+                }
+        }, (long) 1);
         }
     }
 
@@ -231,11 +244,39 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                     initializeItems(player, openSystem);
                 }
             } else if (slot == 49) { // Search
-                // @TODO: Add anvil gui search
+                new AnvilGUI.Builder()
+                        .onComplete((plr, text) -> {
+                            Map<ItemStack, Integer> items = openSystem.getAllItems();
+                            Map<ItemStack, Integer> search = new HashMap<>();
+                            for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
+                                ItemStack item = entry.getKey();
+                                ItemMeta itemMeta = item.getItemMeta();
+                                int amount = entry.getValue();
+
+                                text = text.toLowerCase();
+                                List<String> lore = itemMeta.getLore();
+                                if (Utils.listStringContainsString(lore, text) || itemMeta.getDisplayName().toLowerCase().contains(text) || item.getType().toString().toLowerCase().contains(text)) {
+                                    search.put(item, amount);
+                                }
+                            }
+
+                            openSearches.put(plr.getUniqueId(), search);
+
+                            Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), ()-> {
+                                openInventory(player, openSystem);
+                                //initializeItems(player, openSystem);
+                            }, (long) 0.5);
+
+                            return AnvilGUI.Response.close();
+                        }).text("Enter Item name")
+                        .item(new ItemStack(Material.PLAYER_HEAD))
+                        .title("Search Terminal.")
+                        .plugin(EnergeticStorage.getPlugin())
+                        .open(player);
             } else if (slot == 50) {
                 Map<ItemStack, Integer> items = openSystem.getAllItems();
 
-                if (items.size() > pageIndex * 28 ) {
+                if (items.size() > (pageIndex + 1) * 28 ) {
                     pageIndex++;
                     openPages.replace(player.getUniqueId(), pageIndex);
                     initializeItems(player, openSystem);
@@ -296,6 +337,7 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
 
                         break;
                     case OUT_HALF:
+                    case SHIFT_OUT:
                     case OUT:
                         if (Utils.isItemValid(clickedItem)) {
                             ItemStack takingItem = clickedItem.clone();
@@ -305,27 +347,25 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                             takingItem.setAmount((clickType == ClickType.OUT_HALF && clickedItem.getAmount() / 2 > 0) ? clickedItem.getAmount() / 2 : 64);
 
                             takingItem = openSystem.removeItem(takingItem);
-                            event.getView().setCursor(takingItem);
+                            // Remove the item from the search map if its in there
+                            if (openSearches.containsKey(player.getUniqueId())) {
+                                for (ItemStack item : openSearches.get(player.getUniqueId()).keySet()) {
+                                    ItemStack clone = item.clone();
+                                    Utils.removeAmountFromLore(clone);
+
+                                    openSearches.get(player.getUniqueId()).entrySet().removeIf(i -> (clone.equals(i.getKey())));
+                                }
+                            }
+
+                            if (clickType == ClickType.SHIFT_OUT) {
+                                player.getInventory().addItem(takingItem);
+                            } else {
+                                event.getView().setCursor(takingItem);
+                            }
 
                             Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
                                 initializeItems(player, openSystem);
                             }, (long) 0.1);
-                        }
-                        break;
-                    case SHIFT_OUT:
-                        if (Utils.isItemValid(clickedItem)) {
-                            if (player.getInventory().firstEmpty() != -1) {
-                                ItemStack takingitem = clickedItem.clone();
-                                takingitem.setAmount(64);
-
-                                ItemStack item = openSystem.removeItem(takingitem);
-
-                                player.getInventory().addItem(item);
-
-                                Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
-                                    initializeItems(player, openSystem);
-                                }, (long) 0.1);
-                            }
                         }
                         break;
                 }
