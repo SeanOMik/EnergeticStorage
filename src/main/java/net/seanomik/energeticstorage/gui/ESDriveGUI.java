@@ -22,7 +22,7 @@ import java.util.*;
 
 public class ESDriveGUI implements InventoryHolder, Listener {
     private final Inventory globalInv;
-    private final String title = "Example GUI";
+    private final String title = "ES Drives";
 
     private Map<UUID, ESSystem> openSystems = new HashMap<>();
 
