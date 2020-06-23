@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+// @TODO: Add more config options
 public final class EnergeticStorage extends JavaPlugin implements Listener {
     private static EnergeticStorage plugin;
 
