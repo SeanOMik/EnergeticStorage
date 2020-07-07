@@ -23,8 +23,14 @@ public class ESReloadCommand implements CommandExecutor {
         ConfigFile.getConfig().reloadConfig();
         PlayersFile.getConfig().reloadConfig();
 
-        // Recache the systems
-        Reference.ES_SYSTEMS = PlayersFile.getAllSystems();
+        // Re-cache the systems
+        try {
+            Reference.ES_SYSTEMS = PlayersFile.getAllSystems();
+            sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Reloaded!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Failed to Reload!");
+        }
 
         return true;
     }
