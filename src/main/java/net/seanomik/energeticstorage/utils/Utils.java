@@ -1,6 +1,5 @@
 package net.seanomik.energeticstorage.utils;
 
-import jdk.internal.jline.internal.Nullable;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class Utils {

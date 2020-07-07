@@ -1,5 +1,5 @@
 name: EnergeticStorage
-version: 0.1-SNAPSHOT
+version: 0.2-SNAPSHOT
 main: net.seanomik.energeticstorage.EnergeticStorage
 api-version: 1.15
 authors: [SeanOMik]
@@ -8,6 +8,10 @@ commands:
     aliases: [egive]
     description: Give a Energetic Storage item.
     usage: /esgive
+  esreload:
+    aliases: [ereload]
+    description: Reload all Energetic Storage configs.
+    usage: /esreload
 permissions:
   energeticstorage.*:
     description: All Energetic Storage permissions.

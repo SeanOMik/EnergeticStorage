@@ -99,6 +99,68 @@ public class PlayersFile extends YamlConfiguration {
         return getConfig().contains("players." + uuid + ".systems");
     }
 
+    public static Map<UUID, List<ESSystem>> getAllSystems() {
+        Map<UUID, List<ESSystem>> allSystems = new HashMap<>();
+
+        for (String playerUUID : getConfig().getConfigurationSection("players").getKeys(false)) {
+            List<ESSystem> playersSystems = new ArrayList<>();
+            for (String systemUUID : getConfig().getConfigurationSection("players." + playerUUID + ".systems").getKeys(false)) {
+                String systemPath = "players." + playerUUID + ".systems." + systemUUID + ".";
+                List<ESDrive> drives = new ArrayList<>();
+
+                if (getConfig().contains(systemPath + "drives")) {
+                    for (String driveUUID : getConfig().getConfigurationSection(systemPath + "drives").getKeys(false)) {
+
+                        Map<ItemStack, Integer> items = new HashMap();
+                        if (getConfig().contains(systemPath + "drives." + driveUUID + ".items")) {
+                            try {
+                                JSONParser jsonParser = new JSONParser();
+                                JSONArray itemJsonArray = (JSONArray) jsonParser.parse(getConfig().getString(systemPath + "drives." + driveUUID + ".items"));
+
+                                for (int i = 0; i < itemJsonArray.size(); i++) {
+                                    JSONObject itemObject = (JSONObject) itemJsonArray.get(i);
+
+                                    Map.Entry<ItemStack, Integer> item = ItemSerialization.deserializeItem((String) itemObject.get("itemYAML"));
+
+                                    items.put(item.getKey(), item.getValue());
+                                }
+                            } catch (ParseException | InvalidConfigurationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        int size = getConfig().getInt(systemPath + "drives." + driveUUID + ".size");
+
+                        drives.add(new ESDrive(size, items));
+                    }
+                }
+
+                List<UUID> trustedUUIDs = new ArrayList<>();
+                if (getConfig().contains(systemPath + "trustedUUIDs")) {
+                    try {
+                        JSONArray trustedJson = (JSONArray) new JSONParser().parse(getConfig().getString(systemPath + "trustedUUIDs"));
+                        for (int i = 0; i < trustedJson.size(); i++) {
+                            JSONObject object = (JSONObject) trustedJson.get(i);
+
+                            trustedUUIDs.add(UUID.fromString((String) object.get("UUID")));
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                boolean isPublic = getConfig().getBoolean(systemPath + "public");
+
+                Location loc = Utils.convertStringToLocation(getConfig().getString(systemPath + "loc"));
+                playersSystems.add(new ESSystem(UUID.fromString(playerUUID), UUID.fromString(systemUUID), loc, drives, trustedUUIDs, isPublic));
+            }
+
+            allSystems.put(UUID.fromString(playerUUID), playersSystems);
+        }
+
+        return allSystems;
+    }
+
     public static List<ESSystem> getPlayersSystems(UUID uuid) {
         List<ESSystem> systems = new ArrayList<>();
         for (String systemUUID : getConfig().getConfigurationSection("players." + uuid + ".systems").getKeys(false)) {

@@ -8,6 +8,10 @@ commands:
     aliases: [egive]
     description: Give a Energetic Storage item.
     usage: /esgive
+  esreload:
+    aliases: [ereload]
+    description: Reload all Energetic Storage configs.
+    usage: /esreload
 permissions:
   energeticstorage.*:
     description: All Energetic Storage permissions.

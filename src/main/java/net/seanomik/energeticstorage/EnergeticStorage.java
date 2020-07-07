@@ -1,6 +1,7 @@
 package net.seanomik.energeticstorage;
 
 import net.seanomik.energeticstorage.commands.ESGiveCommand;
+import net.seanomik.energeticstorage.commands.ESReloadCommand;
 import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.listeners.BlockBreakListener;
 import net.seanomik.energeticstorage.listeners.BlockPlaceListener;
@@ -28,13 +29,12 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
 
         PlayersFile.getConfig().saveDefaultConfig();
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            cachePlayersSystems(player);
-        }
+        Reference.ES_SYSTEMS = PlayersFile.getAllSystems();
     }
 
     private void registerCommands() {
         getCommand("esgive").setExecutor(new ESGiveCommand());
+        getCommand("esreload").setExecutor(new ESReloadCommand());
     }
 
     private void registerListener() {
@@ -48,17 +48,17 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
     }
 
-    public void cachePlayersSystems(Player player) {
+    /*public void cachePlayersSystems(Player player) {
         if (PlayersFile.doesPlayerHaveSystem(player.getUniqueId())) {
             Reference.ES_SYSTEMS.put(player.getUniqueId(), PlayersFile.getPlayersSystems(player.getUniqueId()));
         }
-    }
+    }*/
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        cachePlayersSystems(player);
+        //cachePlayersSystems(player);
     }
 
     @Override
