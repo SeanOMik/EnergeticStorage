@@ -20,6 +20,7 @@ Energetic Storage is a plugin that is heavily inspired by a forge mod named, [Ap
         
 ## Permissions
 * `energeticstorage.*`: Gives all Energetic Storage permissions.
+* `energeticstorage.reload`: Gives permission to reload the Energetic Storage configuration files.
 * `energeticstorage.esgive`: Gives permission to give an Energetic Storage item to themselves.
 * `energeticstorage.esgive.others`: Gives permission to give an Energetic Storage item to others. 
 * `energeticstorage.system.open.untrusted`: Gives permission to open an ES System that the player is not trusted on.
@@ -27,6 +28,7 @@ Energetic Storage is a plugin that is heavily inspired by a forge mod named, [Ap
 * `energeticstorage.system.destroy.untrusted`: Gives permission to destroy a system the player isn't trusted on.
 
 ## Commands
+* /esreload
 * /esgive [drive/system] [1k, 4k, 16k, 64k] (player)
 
 ## Config:
