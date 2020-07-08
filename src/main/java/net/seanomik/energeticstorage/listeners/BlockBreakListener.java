@@ -5,6 +5,7 @@ import net.seanomik.energeticstorage.Skulls;
 import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.objects.ESDrive;
 import net.seanomik.energeticstorage.objects.ESSystem;
+import net.seanomik.energeticstorage.utils.ItemConstructor;
 import net.seanomik.energeticstorage.utils.PermissionChecks;
 import net.seanomik.energeticstorage.utils.Reference;
 import net.seanomik.energeticstorage.utils.Utils;
@@ -34,7 +35,7 @@ public class BlockBreakListener implements Listener {
                 if (esSystem != null) {
                     if (esSystem.isPlayerTrusted(player) || esSystem.getOwner().equals(player.getUniqueId()) || PermissionChecks.canDestroyUntrustedSystems(player)) {
                         for (ESDrive drive : esSystem.getESDrives()) {
-                            block.getLocation().getWorld().dropItem(block.getLocation(), drive.getDriveItem());
+                            block.getLocation().getWorld().dropItemNaturally(block.getLocation(), drive.getDriveItem());
                         }
 
                         // Remove the system from cache and storage
@@ -43,6 +44,10 @@ public class BlockBreakListener implements Listener {
                         List<ESSystem> systems = new LinkedList<>(Reference.ES_SYSTEMS.get(player.getUniqueId()));
                         systems.removeIf(esSystem::equals);
                         Reference.ES_SYSTEMS.replace(player.getUniqueId(), systems);
+
+                        // Drop an ES System
+                        event.setDropItems(false);
+                        event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), ItemConstructor.createSystemBlock());
                     } else {
                         event.setCancelled(true);
                         player.sendMessage(Reference.PREFIX + ChatColor.RED + "You are not trusted to this system!");
