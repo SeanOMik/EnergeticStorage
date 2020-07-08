@@ -20,6 +20,11 @@ import java.util.List;
 public class ESReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!PermissionChecks.canReloadPlugin(sender)) {
+            sender.sendMessage(Reference.PREFIX + ChatColor.RED + "You don't have permission for this command!");
+            return true;
+        }
+
         ConfigFile.getConfig().reloadConfig();
         PlayersFile.getConfig().reloadConfig();
 
@@ -29,7 +34,7 @@ public class ESReloadCommand implements CommandExecutor {
             sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Reloaded!");
         } catch (Exception e) {
             e.printStackTrace();
-            sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Failed to Reload!");
+            sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Failed to Reload! (" + e.getMessage() + ")");
         }
 
         return true;

@@ -22,4 +22,8 @@ public class PermissionChecks {
     public static boolean canCreateSystem(CommandSender sender) {
         return sender.hasPermission("energeticstorage.system.create");
     }
+
+    public static boolean canReloadPlugin(CommandSender sender) {
+        return sender.hasPermission("energeticstorage.reload");
+    }
 }

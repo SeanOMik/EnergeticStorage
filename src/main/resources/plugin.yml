@@ -17,11 +17,15 @@ permissions:
     description: All Energetic Storage permissions.
     default: op
     children:
+      energeticstorage.reload: true
       energeticstorage.esgive: true
       energeticstorage.esgive.others: true
       energeticstorage.system.open.untrusted: true
       energeticstorage.system.create: true
       energeticstorage.system.destroy.untrusted: true
+  energeticstorage.reload:
+    description: Give permission to run `/esreload`.
+    default: op
   energeticstorage.esgive:
     description: Give Energetic Storage items.
     default: op
