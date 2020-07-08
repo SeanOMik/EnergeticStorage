@@ -122,7 +122,7 @@ public class ESDrive implements Cloneable {
             // The item is contained, then update the amount.
             if (Utils.containsSimilarItem(new ArrayList<>(items.keySet()), item, true)) {
                 int amount = (int) items.values().toArray()[Utils.indexOfSimilarItem(new ArrayList<>(items.keySet()), item)] + item.getAmount();
-                Utils.removeSimilarItem(items, item);
+                items = Utils.removeSimilarItem(items, item);
                 items.put(item, amount);
             } else {
                 items.put(item, item.getAmount());
@@ -138,12 +138,12 @@ public class ESDrive implements Cloneable {
         // If there isn't enough items stored to take out the requested amount, then just take out all that we can.
         int foundItemAmount = (int) items.values().toArray()[Utils.indexOfSimilarItem(new ArrayList<>(items.keySet()), item)];
         if (foundItemAmount - item.getAmount() < 1) {
-            Utils.removeSimilarItem(items, item);
+            items = Utils.removeSimilarItem(items, item);
             item.setAmount(foundItemAmount);
         } else {
             int newAmount = foundItemAmount - item.getAmount();
 
-            Utils.removeSimilarItem(items, item);
+            items = Utils.removeSimilarItem(items, item);
             items.put(item, newAmount);
         }
 

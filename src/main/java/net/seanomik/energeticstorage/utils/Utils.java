@@ -66,8 +66,21 @@ public class Utils {
         return false;
     }
 
-    public static void removeSimilarItem(Map<ItemStack, Integer> itemStacks, ItemStack item) {
-        itemStacks.entrySet().removeIf(entry -> removeAmountFromLore(entry.getKey()).isSimilar(item));
+    public static Map<ItemStack, Integer> removeSimilarItem(Map<ItemStack, Integer> itemStacks, ItemStack item) {
+        removeAmountFromLore(item);
+        // Doing this does not work. So we're gonna have to make some ugly code...
+        // The reason it doesn't work is due to Spigot implementing its own `hashCode` implementation,
+        // which Java's Iterator#remove method relies on and regenerates the hashCode when removing.
+        //itemStacks.entrySet().removeIf(entry -> removeAmountFromLore(entry.getKey()).isSimilar(item));
+
+        Map<ItemStack, Integer> items = new HashMap<>();
+        for (Map.Entry<ItemStack, Integer> entry : itemStacks.entrySet()) {
+            if (!removeAmountFromLore(entry.getKey()).isSimilar(item)) {
+                items.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return items;
     }
 
     public static int indexOfSimilarItem(List<ItemStack> itemStacks, ItemStack item) {
