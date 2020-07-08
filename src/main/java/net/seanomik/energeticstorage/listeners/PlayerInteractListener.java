@@ -38,24 +38,9 @@ public class PlayerInteractListener implements Listener {
                             player.sendMessage(Reference.PREFIX + ChatColor.RED + "You are not trusted to this system!");
                         }
                     } else {
-                        player.sendMessage(Reference.PREFIX + ChatColor.RED + "You are not trusted to this system!");
+                        player.sendMessage(Reference.PREFIX + ChatColor.RED + "This is an invalid ES System!");
                     }
                 }
-/*
-// You probably do not need an atomic reference IntelliJ just recommended this to me.
-AtomicReference<Double> lastIncrement = new AtomicReference<>((double) 0);
-Bukkit.getScheduler().runTaskTimer(plugin, ()-> {
-    Location a = new Location(Bukkit.getWorld(""), 0,0,0,);
-    Location b = new Location(Bukkit.getWorld(""), 0,0,0,);
-    Vector d = b.subtract(a).toVector();
-
-    lastIncrement.updateAndGet(v -> (v + 0.1));
-    Location line = a.add(d).multiply(lastIncrement.get());
-
-    // Spawns 1 heart particle
-    line.getWorld().spawnParticle(Particle.HEART, line, 1);
-}, (long) 20, (long) 15); // 20 = delay, 15 = timer
-*/
             }
         }
     }
