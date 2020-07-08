@@ -330,6 +330,21 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
 
                         break;
                     case INTO_HALF:
+                        if (Utils.isItemValid(cursor)) {
+                            // Only put one item into the system when the player right clicks with the stack.
+                            // if we don't do this, the user can duplicate stacks of items.
+                            ItemStack itemStack = cursor.clone();
+                            itemStack.setAmount(1);
+                            if (openSystem.addItem(itemStack)) {
+                                event.setCancelled(false);
+
+                                Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
+                                    initializeItems(player, openSystem);
+                                }, (long) 0.1);
+                            }
+                        }
+
+                        break;
                     case INTO:
                         if (Utils.isItemValid(cursor)) {
                             if (openSystem.addItem(cursor)) {
