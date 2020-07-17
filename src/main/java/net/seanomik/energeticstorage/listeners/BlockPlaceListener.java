@@ -29,7 +29,7 @@ public class BlockPlaceListener implements Listener {
 
             NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
 
-            if (blockNBT.getCompound("Owner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
+            if (blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
                 if (PermissionChecks.canCreateSystem(player)) {
                     ESSystem newSystem = new ESSystem(player.getUniqueId(), UUID.randomUUID(), block.getLocation());
                     PlayersFile.savePlayerSystem(newSystem);

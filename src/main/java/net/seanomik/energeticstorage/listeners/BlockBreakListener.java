@@ -29,7 +29,7 @@ public class BlockBreakListener implements Listener {
             Player player = event.getPlayer();
 
             NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
-            if (blockNBT.getCompound("Owner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
+            if (blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
                 ESSystem esSystem = Utils.findSystemAtLocation(block.getLocation());
 
                 if (esSystem != null) {
