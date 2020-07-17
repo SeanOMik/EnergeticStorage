@@ -3,6 +3,7 @@ version: ${project.version}
 main: net.seanomik.energeticstorage.EnergeticStorage
 api-version: 1.15
 authors: [SeanOMik]
+softdepend: [Multiverse-Core]
 commands:
   esgive:
     aliases: [egive]
