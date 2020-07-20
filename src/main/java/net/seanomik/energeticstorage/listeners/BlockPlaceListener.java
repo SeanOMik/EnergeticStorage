@@ -14,10 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class BlockPlaceListener implements Listener {
 
@@ -27,9 +24,7 @@ public class BlockPlaceListener implements Listener {
             Block block = event.getBlock();
             Player player = event.getPlayer();
 
-            NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
-
-            if (blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
+            if (Utils.isBlockASystem(block)) {
                 if (PermissionChecks.canCreateSystem(player)) {
                     ESSystem newSystem = new ESSystem(player.getUniqueId(), UUID.randomUUID(), block.getLocation());
                     PlayersFile.savePlayerSystem(newSystem);
@@ -41,7 +36,7 @@ public class BlockPlaceListener implements Listener {
 
                         Reference.ES_SYSTEMS.replace(player.getUniqueId(), playerESSystems);
                     } else {
-                        Reference.ES_SYSTEMS.put(player.getUniqueId(), Arrays.asList(newSystem));
+                        Reference.ES_SYSTEMS.put(player.getUniqueId(), Collections.singletonList(newSystem));
                     }
                 }
             }

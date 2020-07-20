@@ -1,7 +1,5 @@
 package net.seanomik.energeticstorage.listeners;
 
-import de.tr7zw.changeme.nbtapi.NBTTileEntity;
-import net.seanomik.energeticstorage.Skulls;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import net.seanomik.energeticstorage.utils.PermissionChecks;
 import net.seanomik.energeticstorage.utils.Reference;
@@ -24,9 +22,7 @@ public class PlayerInteractListener implements Listener {
                 Block block = event.getClickedBlock();
                 Player player = event.getPlayer();
 
-                NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
-
-                if (blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
+                if (Utils.isBlockASystem(block)) {
                     event.setCancelled(true);
 
                     ESSystem esSystem = Utils.findSystemAtLocation(block.getLocation());

@@ -1,10 +1,13 @@
 package net.seanomik.energeticstorage.utils;
 
+import de.tr7zw.changeme.nbtapi.NBTTileEntity;
+import net.seanomik.energeticstorage.Skulls;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -120,6 +123,18 @@ public class Utils {
             if (str.toLowerCase().contains(string)) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    public static boolean isBlockASystem(Block block) {
+        NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
+        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        if (version.equals("v1_15_R1")) {
+            return blockNBT.getCompound("Owner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
+        } else if (version.equals("v1_16_R1")) {
+            return blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
         }
 
         return false;

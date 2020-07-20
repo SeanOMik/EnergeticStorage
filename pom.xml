@@ -6,7 +6,7 @@
 
     <groupId>net.seanomik</groupId>
     <artifactId>energeticstorage</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EnergeticStorage</name>
@@ -40,7 +40,9 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-MC-v1.15.X-v${project.version}.jar</outputFile>
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.14.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
@@ -63,7 +65,7 @@
                         <relocations>
                             <relocation>
                                 <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                <shadedPattern>de.tr7zw.nbtapi</shadedPattern>
+                                <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
                             </relocation>
                         </relocations>
                 </configuration>
@@ -101,19 +103,19 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
             <version>2.4.1</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.github.WesJD.AnvilGUI</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>ef71db62ecd6e14405eb7891d7d1c58341b9e61e</version>
+            <version>ef71db62ec</version>
         </dependency>
     </dependencies>
 </project>

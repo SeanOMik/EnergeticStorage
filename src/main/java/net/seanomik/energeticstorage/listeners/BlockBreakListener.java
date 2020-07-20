@@ -1,7 +1,5 @@
 package net.seanomik.energeticstorage.listeners;
 
-import de.tr7zw.changeme.nbtapi.NBTTileEntity;
-import net.seanomik.energeticstorage.Skulls;
 import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.objects.ESDrive;
 import net.seanomik.energeticstorage.objects.ESSystem;
@@ -28,8 +26,7 @@ public class BlockBreakListener implements Listener {
             Block block = event.getBlock();
             Player player = event.getPlayer();
 
-            NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
-            if (blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture())) {
+            if (Utils.isBlockASystem(block)) {
                 ESSystem esSystem = Utils.findSystemAtLocation(block.getLocation());
 
                 if (esSystem != null) {
