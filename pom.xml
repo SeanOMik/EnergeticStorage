@@ -40,35 +40,18 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.14.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
+                                </relocation>
+                            </relocations>
+
+                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <id>shade</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                        <relocations>
-                            <relocation>
-                                <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
-                            </relocation>
-                        </relocations>
-                </configuration>
             </plugin>
         </plugins>
         <resources>
