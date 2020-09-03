@@ -131,9 +131,9 @@ public class Utils {
     public static boolean isBlockASystem(Block block) {
         NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        if (version.equals("v1_15_R1")) {
+        if (version.substring(0, 5).equals("v1_15") || version.substring(0, 5).equals("v1_14")) {
             return blockNBT.getCompound("Owner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
-        } else if (version.equals("v1_16_R1")) {
+        } else if (version.substring(0, 5).equals("v1_16")) {
             return blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
         }
 
