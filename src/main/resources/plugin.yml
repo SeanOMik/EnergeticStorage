@@ -1,7 +1,7 @@
 name: EnergeticStorage
 version: ${project.version}
 main: net.seanomik.energeticstorage.EnergeticStorage
-api-version: 1.15
+api-version: 1.14
 authors: [SeanOMik]
 softdepend: [Multiverse-Core]
 commands:

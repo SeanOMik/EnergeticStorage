@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.StringEscapeUtils;
+//import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.StringEscapeUtils;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -245,7 +245,7 @@ public class PlayersFile extends YamlConfiguration {
             JSONArray itemsJson = new JSONArray();
             for (Map.Entry<ItemStack, Integer> entry : drive.getItems().entrySet()) {
                 try {
-                    String object = "{\"itemYAML\":\"" + StringEscapeUtils.escapeJson(ItemSerialization.serializeItem(entry.getKey(), entry.getValue())) + "\"}";
+                    String object = "{\"itemYAML\":\"" + ItemSerialization.serializeItem(entry.getKey(), entry.getValue()).replace("\"", "\\\"") + "\"}";
                     JSONObject itemJSON = (JSONObject) new JSONParser().parse(object);
 
                     itemsJson.add(itemJSON);

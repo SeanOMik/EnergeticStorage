@@ -76,7 +76,7 @@ public class ESGiveCommand implements TabExecutor {
                 sender.sendMessage("Saved systems!");
                 break;
             case "system":
-                Player p = (Player) sender;
+                //Player p = (Player) sender;
 
                 if (args.length == 2) {
                     if (!PermissionChecks.canESGiveOthers(sender)) {
@@ -94,7 +94,13 @@ public class ESGiveCommand implements TabExecutor {
                         sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Player does not exist or is not online!");
                     }
                 } else if (args.length == 1) {
-                    p.getInventory().addItem(ItemConstructor.createSystemBlock());
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        player.getInventory().addItem(ItemConstructor.createSystemBlock());
+                    } else {
+                        sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Supply a player to run this command!");
+                        sender.sendMessage(generateCommandUsage(args));
+                    }
                 }
                 break;
             case "drive":
@@ -117,7 +123,7 @@ public class ESGiveCommand implements TabExecutor {
                         if (player != null) {
                             player.getInventory().addItem(ItemConstructor.createDrive(size, 0, 0));
 
-                            sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Gave an ES System to " + player.getDisplayName());
+                            sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Gave an ES Drive to " + player.getDisplayName());
                         } else {
                             sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Player does not exist or is not online!");
                         }
