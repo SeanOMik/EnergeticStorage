@@ -28,8 +28,7 @@ public class PlayerInteractListener implements Listener {
                     ESSystem esSystem = Utils.findSystemAtLocation(block.getLocation());
                     if (esSystem != null) {
                         if (esSystem.isPlayerTrusted(player) || esSystem.isPublic() || esSystem.getOwner().equals(player.getUniqueId()) || PermissionChecks.canOpenUntrustedSystem(player)) {
-                            Reference.ES_SYSTEM_GUI.initializeItems(player, esSystem);
-                            Reference.ES_SYSTEM_GUI.openInventory(player, esSystem);
+                            Reference.ES_TERMINAL_GUI.openInventory(player, esSystem);
                         } else {
                             player.sendMessage(Reference.PREFIX + ChatColor.RED + "You are not trusted to this system!");
                         }

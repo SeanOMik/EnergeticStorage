@@ -1,5 +1,6 @@
 package net.seanomik.energeticstorage.utils;
 
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTTileEntity;
 import net.seanomik.energeticstorage.Skulls;
 import net.seanomik.energeticstorage.objects.ESSystem;
@@ -138,5 +139,10 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static boolean isItemADrive(ItemStack item) {
+        NBTItem nbtItem = new NBTItem(item);
+        return nbtItem.hasKey("ES_Drive");
     }
 }

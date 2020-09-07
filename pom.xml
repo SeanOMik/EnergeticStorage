@@ -6,7 +6,7 @@
 
     <groupId>net.seanomik</groupId>
     <artifactId>energeticstorage</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EnergeticStorage</name>
@@ -47,10 +47,12 @@
                                 </relocation>
                             </relocations>
 
-                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.14.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.14.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.2_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.1_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -99,7 +101,7 @@
         <dependency>
             <groupId>com.github.WesJD.AnvilGUI</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>ef71db62ec</version>
+            <version>master-cee0befbaf-1</version>
         </dependency>
     </dependencies>
 </project>

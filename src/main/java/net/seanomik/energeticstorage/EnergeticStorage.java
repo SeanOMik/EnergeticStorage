@@ -39,7 +39,6 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
 
     private void registerListener() {
         getServer().getPluginManager().registerEvents(Reference.ES_TERMINAL_GUI, this);
-        getServer().getPluginManager().registerEvents(Reference.ES_SYSTEM_GUI, this);
         getServer().getPluginManager().registerEvents(Reference.ES_DRIVE_GUI, this);
         getServer().getPluginManager().registerEvents(Reference.ES_SYSTEM_SECURITY_GUI, this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);

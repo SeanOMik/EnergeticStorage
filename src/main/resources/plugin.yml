@@ -40,7 +40,7 @@ permissions:
     default: op
   energeticstorage.system.create:
     description: Permission for creating new Energetic Storage.
-    default: op
+    default: true
   energeticstorage.system.destroy.untrusted:
     description: Permission for destroying an ES System that the player is not trusted in.
     default: op

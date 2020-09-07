@@ -2,6 +2,7 @@ package net.seanomik.energeticstorage.gui;
 
 import net.seanomik.energeticstorage.EnergeticStorage;
 import net.seanomik.energeticstorage.files.PlayersFile;
+import net.seanomik.energeticstorage.objects.ESDrive;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import net.seanomik.energeticstorage.utils.Reference;
 import net.seanomik.energeticstorage.utils.Utils;
@@ -131,6 +132,43 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             } else {
                 inv.clear(i);
             }
+
+
+            inv.setItem(45, createGuiItem(Material.IRON_BARS, "Security"));
+
+            // Create the lore for the drives
+            int maxSpace = 0;
+            int filledSpace = 0;
+            int filledTypes = 0;
+            for (ESDrive drive : openSystem.getESDrives()) {
+                maxSpace += drive.getSize();
+                filledSpace += drive.getFilledSpace();
+                filledTypes += drive.getFilledTypes();
+            }
+
+            // Get color of items text
+            ChatColor spaceColor = ChatColor.GREEN;
+            if (filledSpace >= maxSpace * 0.8) {
+                spaceColor = ChatColor.RED;
+            } else if (filledSpace >= maxSpace * 0.5) {
+                spaceColor = ChatColor.YELLOW;
+            }
+
+            // Max drive type count for each drive
+            int maxTypes = openSystem.getESDrives().size() * Reference.MAX_DRIVE_TYPES;
+
+            // Get color of types text
+            ChatColor itemsColor = ChatColor.GREEN;
+            if (filledTypes >= maxTypes * 0.8) {
+                itemsColor = ChatColor.RED;
+            } else if (filledTypes >= maxTypes * 0.5) {
+                itemsColor = ChatColor.YELLOW;
+            }
+
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.BLUE + "Filled Items: " + spaceColor + filledSpace + ChatColor.BLUE + "/" + ChatColor.GREEN + maxSpace);
+            lore.add(ChatColor.BLUE + "Filled Types: " + itemsColor + filledTypes + ChatColor.BLUE + "/" + ChatColor.GREEN + maxTypes);
+            inv.setItem(46, createGuiItem(Material.CHEST, "Drives", lore));
         }
     }
 
@@ -138,6 +176,16 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
         ItemStack item = new ItemStack(material, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
+    private ItemStack createGuiItem(Material material, String name, List<String> lore) {
+        ItemStack item = new ItemStack(material, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
         item.setItemMeta(meta);
 
         return item;
@@ -278,7 +326,7 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                         .title("Search Terminal.")
                         .plugin(EnergeticStorage.getPlugin())
                         .open(player);
-            } else if (slot == 50) {
+            } else if (slot == 50) { // Next page
                 Map<ItemStack, Integer> items = openSystem.getAllItems();
 
                 if (items.size() > (pageIndex + 1) * 28 ) {
@@ -286,6 +334,10 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                     openPages.replace(player.getUniqueId(), pageIndex);
                     initializeItems(player, openSystem);
                 }
+            } else if (slot == 45) { // Security
+                Reference.ES_SYSTEM_SECURITY_GUI.openInventory(player, openSystem);
+            } else if (slot == 46) { // Drives
+                Reference.ES_DRIVE_GUI.openInventory(player, openSystem);
             } else {
                 switch (clickType) {
                     case SHIFT_IN:

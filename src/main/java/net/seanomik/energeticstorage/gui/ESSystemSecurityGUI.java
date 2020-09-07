@@ -48,6 +48,7 @@ public class ESSystemSecurityGUI implements InventoryHolder, Listener {
             inv.setItem(i, createGuiItem(Material.BLACK_STAINED_GLASS_PANE, ""));
         }
 
+        inv.setItem(0, createGuiItem(Material.PAPER, "Back"));
         inv.setItem(3, createGuiItem(Material.LIME_CONCRETE, "Trust player"));
         inv.setItem(4, createGuiItem(Material.RED_CONCRETE, "Un-Trust player"));
         if (openSystem.isPublic()) {
@@ -281,7 +282,9 @@ public class ESSystemSecurityGUI implements InventoryHolder, Listener {
                         }
                     } else {
                         // At main menu
-                        if (slot == 3) { // Add player
+                        if (slot == 0) {
+                            Reference.ES_TERMINAL_GUI.openInventory(player, openSystem);
+                        } else if (slot == 3) { // Add player
                             new AnvilGUI.Builder()
                                     .onComplete((plr, text) -> {
                                         if (text != null && !text.isEmpty()) {

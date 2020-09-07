@@ -180,7 +180,7 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                 case SWAP:
                     break;
                 case SHIFT_IN:
-                    if (Utils.isItemValid(clickedItem)) {
+                    if (Utils.isItemValid(clickedItem) && Utils.isItemADrive(clickedItem)) {
                         event.setCancelled(true);
 
                         // Add the item into the player's inventory
@@ -199,7 +199,7 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                     break;
                 case INTO_HALF:
                 case INTO:
-                    if (Utils.isItemValid(cursor)) {
+                    if (Utils.isItemValid(cursor) && Utils.isItemADrive(cursor)) {
                         NBTItem clickedNBT = new NBTItem(cursor);
 
                         if (clickedNBT.hasKey("ES_Drive") && clickedNBT.getBoolean("ES_Drive")) {
@@ -214,17 +214,18 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                 case SHIFT_OUT:
                 case OUT_HALF:
                 case OUT:
-                    if (slot == 0) {
+                    if (slot == 0) { // Back button.
                         player.closeInventory();
 
-                        Reference.ES_SYSTEM_GUI.initializeItems(player, esSystem);
-                        Reference.ES_SYSTEM_GUI.openInventory(player, esSystem);
+                        Reference.ES_TERMINAL_GUI.openInventory(player, esSystem);
                     } else if (slot != 1 && slot != 7 && slot != 8) {
-                        event.setCancelled(false);
+                        if (Utils.isItemADrive(cursor)) {
+                            event.setCancelled(false);
 
-                        List<ESDrive> drives = esSystem.getESDrives();
-                        drives.remove(slot - 2);
-                        esSystem.setESDrives(drives);
+                            List<ESDrive> drives = esSystem.getESDrives();
+                            drives.remove(slot - 2);
+                            esSystem.setESDrives(drives);
+                        }
                     }
                     break;
                 case INVENTORY_CLICK:
