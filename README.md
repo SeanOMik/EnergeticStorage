@@ -19,13 +19,13 @@ Energetic Storage is a plugin that is heavily inspired by a forge mod named, [Ap
         * Only trusted players and the owner of the system can destroy it.
         
 ## Permissions
-* `energeticstorage.*`: Gives all Energetic Storage permissions.
-* `energeticstorage.reload`: Gives permission to reload the Energetic Storage configuration files.
-* `energeticstorage.esgive`: Gives permission to give an Energetic Storage item to themselves.
-* `energeticstorage.esgive.others`: Gives permission to give an Energetic Storage item to others. 
-* `energeticstorage.system.open.untrusted`: Gives permission to open an ES System that the player is not trusted on.
-* `energeticstorage.system.create`: Gives permission to create an ES System.
-* `energeticstorage.system.destroy.untrusted`: Gives permission to destroy a system the player isn't trusted on.
+* `energeticstorage.*`: Gives all Energetic Storage permissions. Default: `op`
+* `energeticstorage.reload`: Gives permission to reload the Energetic Storage configuration files. Default: `op`
+* `energeticstorage.esgive`: Gives permission to give an Energetic Storage item to themselves. Default: `op`
+* `energeticstorage.esgive.others`: Gives permission to give an Energetic Storage item to others. Default: `op`
+* `energeticstorage.system.open.untrusted`: Gives permission to open an ES System that the player is not trusted on. Default: `op`
+* `energeticstorage.system.create`: Gives permission to create an ES System. Default: `Everyone`
+* `energeticstorage.system.destroy.untrusted`: Gives permission to destroy a system the player isn't trusted on. Default: `op`
 
 ## Commands
 * /esreload
