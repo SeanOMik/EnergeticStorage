@@ -282,7 +282,7 @@ public class ESSystemSecurityGUI implements InventoryHolder, Listener {
                         }
                     } else {
                         // At main menu
-                        if (slot == 0) {
+                        if (slot == 0) { // Back
                             Reference.ES_TERMINAL_GUI.openInventory(player, openSystem);
                         } else if (slot == 3) { // Add player
                             new AnvilGUI.Builder()

@@ -22,7 +22,7 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBlockBreakListener(BlockBreakEvent event) {
-        if (event.getBlock().getType() == Material.PLAYER_HEAD) {
+        if (event.getBlock().getType() == Material.PLAYER_HEAD || event.getBlock().getType() == Material.PLAYER_WALL_HEAD) {
             Block block = event.getBlock();
             Player player = event.getPlayer();
 

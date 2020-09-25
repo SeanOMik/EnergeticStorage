@@ -16,6 +16,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 // @TODO: Add more config options
+/*
+ * Change Log:
+ *  - Fix /esgive command runner from getting kicked with "Illegal Characters" error.
+ *  - Fix systems that were placed on the walls.
+ */
 public final class EnergeticStorage extends JavaPlugin implements Listener {
     private static EnergeticStorage plugin;
 

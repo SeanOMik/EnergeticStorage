@@ -18,7 +18,7 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
-            if (event.getClickedBlock().getType() == Material.PLAYER_HEAD) {
+            if (event.getClickedBlock().getType() == Material.PLAYER_HEAD || event.getClickedBlock().getType() == Material.PLAYER_WALL_HEAD) {
                 Block block = event.getClickedBlock();
                 Player player = event.getPlayer();
 

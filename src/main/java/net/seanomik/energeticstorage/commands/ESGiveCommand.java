@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.md_5.bungee.api.ChatColor.STRIP_COLOR_PATTERN;
+
 public class ESGiveCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -33,14 +35,14 @@ public class ESGiveCommand implements TabExecutor {
                     tab.addAll(Arrays.asList("1k", "4k", "16k", "64k"));
                 } else if (args[0].equals("system")) {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                        tab.add(player.getDisplayName());
+                        tab.add(ChatColor.stripColor(player.getDisplayName()));
                     }
                 }
                 break;
             case 3:
                 if (args[0].equals("drive")) {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                        tab.add(player.getDisplayName());
+                        tab.add(ChatColor.stripColor(player.getDisplayName()));
                     }
                 }
 
@@ -97,6 +99,8 @@ public class ESGiveCommand implements TabExecutor {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         player.getInventory().addItem(ItemConstructor.createSystemBlock());
+
+                        sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Gave an ES System to " + player.getDisplayName());
                     } else {
                         sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Supply a player to run this command!");
                         sender.sendMessage(generateCommandUsage(args));
@@ -131,6 +135,8 @@ public class ESGiveCommand implements TabExecutor {
                         if (sender instanceof Player) {
                             Player player = (Player) sender;
                             player.getInventory().addItem(ItemConstructor.createDrive(size, 0, 0));
+
+                            sender.sendMessage(Reference.PREFIX + ChatColor.GREEN + "Gave an ES Drive to " + player.getDisplayName());
                         } else {
                             sender.sendMessage(Reference.PREFIX + ChatColor.RED + "Supply a player to run this command!");
                             sender.sendMessage(generateCommandUsage(args));
