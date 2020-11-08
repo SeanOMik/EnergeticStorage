@@ -6,7 +6,7 @@
 
     <groupId>net.seanomik</groupId>
     <artifactId>energeticstorage</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EnergeticStorage</name>
@@ -52,7 +52,8 @@
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.2_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.1_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -96,12 +97,12 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.5.0</version>
+            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.WesJD.AnvilGUI</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>master-cee0befbaf-1</version>
+            <version>master-5d0f592c63-1</version>
         </dependency>
     </dependencies>
 </project>
