@@ -413,10 +413,7 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                     case OUT:
                         if (Utils.isItemValid(clickedItem)) {
                             ItemStack takingItem = clickedItem.clone();
-
-                            /*Map<ItemStack, Integer> items = openSystem.getAllItems();
-                            int amount = items.values().toArray()[Utils.indexOfSimilarItem(items.keySet(), clickedItem)]*/
-                            takingItem.setAmount((clickType == ClickType.OUT_HALF && clickedItem.getAmount() / 2 > 0) ? clickedItem.getAmount() / 2 : 64);
+                            takingItem.setAmount((clickType == ClickType.OUT_HALF && clickedItem.getAmount() / 2 > 0) ? clickedItem.getAmount() / 2 : clickedItem.getMaxStackSize());
 
                             takingItem = openSystem.removeItem(takingItem);
                             // Remove the item from the search map if its in there
@@ -430,7 +427,13 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                             }
 
                             if (clickType == ClickType.SHIFT_OUT) {
-                                player.getInventory().addItem(takingItem);
+                                HashMap<Integer, ItemStack> leftOverItems = player.getInventory().addItem(takingItem);
+
+                                // Add the left over items back into the system
+                                for (Map.Entry<Integer, ItemStack> item : leftOverItems.entrySet()) {
+                                    System.out.println(item);
+                                    openSystem.addItem(item.getValue());
+                                }
                             } else {
                                 event.getView().setCursor(takingItem);
                             }
