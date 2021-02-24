@@ -1,6 +1,7 @@
 package net.seanomik.energeticstorage.gui;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import net.seanomik.energeticstorage.EnergeticStorage;
 import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.objects.ESDrive;
 import net.seanomik.energeticstorage.objects.ESSystem;
@@ -58,7 +59,9 @@ public class ESDriveGUI implements InventoryHolder, Listener {
         for (int i = 2; i < esSystem.getESDrives().size() + 2; i++) {
             ESDrive drive = esSystem.getESDrives().get(i - 2);
 
-            inv.setItem(i , drive.getDriveItem());
+            if (drive != null) {
+                inv.setItem(i, drive.getDriveItem());
+            }
         }
     }
 
@@ -149,7 +152,11 @@ public class ESDriveGUI implements InventoryHolder, Listener {
             return;
         } else {
             Player player = (Player) event.getPlayer();
-            PlayersFile.savePlayerSystem(openSystems.get(player.getUniqueId()));
+            ESSystem openSystem = openSystems.get(player.getUniqueId());
+            // Serialize null drives
+            openSystem.getESDrives().removeIf(Objects::isNull);
+
+            PlayersFile.savePlayerSystem(openSystem);
 
             openSystems.remove(player);
         }
@@ -219,12 +226,12 @@ public class ESDriveGUI implements InventoryHolder, Listener {
 
                         Reference.ES_TERMINAL_GUI.openInventory(player, esSystem);
                     } else if (slot != 1 && slot != 7 && slot != 8) {
-                        if (Utils.isItemADrive(cursor)) {
-                            event.setCancelled(false);
-
+                        if (Utils.isItemADrive(clickedItem)) {
                             List<ESDrive> drives = esSystem.getESDrives();
-                            drives.remove(slot - 2);
+                            drives.set(slot - 2, null);
                             esSystem.setESDrives(drives);
+
+                            event.setCancelled(false);
                         }
                     }
                     break;

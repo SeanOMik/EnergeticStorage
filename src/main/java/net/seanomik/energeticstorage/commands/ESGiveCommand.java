@@ -72,6 +72,11 @@ public class ESGiveCommand implements TabExecutor {
             return true;
         }
 
+        if (args.length == 0) {
+            sender.sendMessage(generateCommandUsage(args));
+            return true;
+        }
+
         switch (args[0]) { // Switch on item type
             case "save":
                 PlayersFile.savePlayerSystems(Reference.ES_SYSTEMS.get(((Player) sender).getUniqueId()));

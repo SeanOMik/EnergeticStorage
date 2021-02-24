@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="EnergeticStorage" />
+        <module name="energeticstorage" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="EnergeticStorage" target="1.8" />
+      <module name="energeticstorage" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

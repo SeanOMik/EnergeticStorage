@@ -1,5 +1,7 @@
 package net.seanomik.energeticstorage.utils;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import org.jetbrains.annotations.Nullable;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTTileEntity;
 import net.seanomik.energeticstorage.Skulls;
@@ -12,7 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class Utils {
@@ -132,13 +133,15 @@ public class Utils {
     public static boolean isBlockASystem(Block block) {
         NBTTileEntity blockNBT = new NBTTileEntity(block.getState());
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        if (version.substring(0, 5).equals("v1_15") || version.substring(0, 5).equals("v1_14")) {
-            return blockNBT.getCompound("Owner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
-        } else if (version.substring(0, 5).equals("v1_16")) {
-            return blockNBT.getCompound("SkullOwner").getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
+
+        NBTCompound ownerNBT;
+        if (version.startsWith("v1_16")) {
+            ownerNBT = blockNBT.getCompound("SkullOwner");
+        } else {
+            ownerNBT = blockNBT.getCompound("Owner");
         }
 
-        return false;
+        return ownerNBT.getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
     }
 
     public static boolean isItemADrive(ItemStack item) {

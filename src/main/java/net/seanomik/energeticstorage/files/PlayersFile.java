@@ -240,6 +240,7 @@ public class PlayersFile extends YamlConfiguration {
         getConfig().set(systemPath + "drives", null);
 
         for (ESDrive drive : esSystem.getESDrives()) {
+            if (drive == null) continue;
             getConfig().set(systemPath + "drives." + drive.getUUID() + ".size", drive.getSize());
 
             JSONArray itemsJson = new JSONArray();

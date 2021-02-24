@@ -1,14 +1,10 @@
 package net.seanomik.energeticstorage;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import net.seanomik.energeticstorage.utils.Utils;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-
-import java.lang.reflect.Field;
-import java.util.UUID;
 
 public enum Skulls {
 
@@ -19,30 +15,33 @@ public enum Skulls {
     private ItemStack item;
     private String name;
     private String texture;
+    private String uuid;
 
     Skulls(String name, int id, String texture, String uuid) {
-        item = createSkull(texture, name);
         this.texture = texture;
         this.name = name;
+        this.uuid = uuid;
+        item = createSkull(uuid, name);
     }
 
     private ItemStack createSkull (String url, String name) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         if (url.isEmpty()) return head;
 
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+        NBTItem headNBT = new NBTItem(head);
+        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
-        gameProfile.getProperties().put("textures", new Property("textures", url));
-
-        try {
-            Field profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, gameProfile);
-        } catch (IllegalArgumentException | NoSuchFieldException | SecurityException | IllegalAccessException e) {
-            e.printStackTrace();
+        NBTCompound ownerNBT;
+        if (version.startsWith("v1_16")) {
+            ownerNBT = headNBT.addCompound("SkullOwner");
+        } else {
+            ownerNBT = headNBT.addCompound("Owner");
         }
-        head.setItemMeta(headMeta);
+
+        ownerNBT.addCompound("Properties").getCompoundList("textures").addCompound().setString("Value", texture);
+        ownerNBT.setString("Id", uuid);
+        head = headNBT.getItem();
+
         return head;
     }
 
