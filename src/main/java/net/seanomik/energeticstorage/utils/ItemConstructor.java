@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ItemConstructor {
-    private static Material DRIVE_MATERIAL = Material.BLUE_DYE;
+    private static final Material DRIVE_MATERIAL = Material.BLUE_DYE;
 
     public static ItemStack createSystemBlock() {
         ItemStack systemBlock = Skulls.Computer.getItemStack();

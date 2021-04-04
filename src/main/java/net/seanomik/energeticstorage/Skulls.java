@@ -1,10 +1,18 @@
 package net.seanomik.energeticstorage;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTGameProfile;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 public enum Skulls {
 
@@ -21,26 +29,25 @@ public enum Skulls {
         this.texture = texture;
         this.name = name;
         this.uuid = uuid;
-        item = createSkull(uuid, name);
+        item = createSkull();
     }
 
-    private ItemStack createSkull (String url, String name) {
+    private ItemStack createSkull() {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
-        if (url.isEmpty()) return head;
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 
-        NBTItem headNBT = new NBTItem(head);
-        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+        profile.getProperties().put("textures", new Property("textures", texture));
 
-        NBTCompound ownerNBT;
-        if (version.startsWith("v1_16")) {
-            ownerNBT = headNBT.addCompound("SkullOwner");
-        } else {
-            ownerNBT = headNBT.addCompound("Owner");
+        try {
+            Field profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
         }
 
-        ownerNBT.addCompound("Properties").getCompoundList("textures").addCompound().setString("Value", texture);
-        ownerNBT.setString("Id", uuid);
-        head = headNBT.getItem();
+        head.setItemMeta(meta);
 
         return head;
     }

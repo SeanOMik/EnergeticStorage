@@ -1,6 +1,7 @@
 package net.seanomik.energeticstorage.utils;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import org.jetbrains.annotations.Nullable;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTTileEntity;
@@ -141,7 +142,18 @@ public class Utils {
             ownerNBT = blockNBT.getCompound("Owner");
         }
 
-        return ownerNBT.getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
+        if (ownerNBT != null && ownerNBT.getCompound("Properties") != null) {
+
+            //return ownerNBT.getCompound("Properties").getCompoundList("textures").get(0).getString("Value").equals(Skulls.Computer.getTexture());
+            for (NBTListCompound list : ownerNBT.getCompound("Properties").getCompoundList("textures")) {
+                if (list.getString("Value").equals(Skulls.Computer.getTexture())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return false;
     }
 
     public static boolean isItemADrive(ItemStack item) {
