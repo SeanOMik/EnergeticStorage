@@ -6,7 +6,7 @@
 
     <groupId>net.seanomik</groupId>
     <artifactId>energeticstorage</artifactId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EnergeticStorage</name>
@@ -49,12 +49,16 @@
 
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.14.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.15.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
-                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.2_\plugins\EnergeticStorage-MC-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.1_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.3_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.5_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.1_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.2_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                             <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_1.16.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <!--<outputFile>D:\Code\java\spigotPlugins\_TEST_SERVER_PAPER_1.16.4_\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
+
                         </configuration>
                     </execution>
                 </executions>
@@ -83,8 +87,8 @@
             <layout>default</layout>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
     </repositories>
 
@@ -101,9 +105,9 @@
             <version>2.7.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.WesJD.AnvilGUI</groupId>
+            <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>master-5d0f592c63-1</version>
+            <version>1.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
