@@ -213,7 +213,7 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                             event.setCancelled(false);
 
                             List<ESDrive> drives = esSystem.getESDrives();
-                            drives.add(slot - 2, new ESDrive(cursor));
+                            drives.add(new ESDrive(cursor));
                             esSystem.setESDrives(drives);
                         }
                     }
