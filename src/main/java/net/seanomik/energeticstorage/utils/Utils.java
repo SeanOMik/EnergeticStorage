@@ -136,7 +136,7 @@ public class Utils {
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
         NBTCompound ownerNBT;
-        if (version.startsWith("v1_16")) {
+        if (blockNBT.hasKey("SkullOwner")) {
             ownerNBT = blockNBT.getCompound("SkullOwner");
         } else {
             ownerNBT = blockNBT.getCompound("Owner");

@@ -4,7 +4,7 @@
   <groupId>net.seanomik</groupId>
   <artifactId>energeticstorage</artifactId>
   <name>EnergeticStorage</name>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.7-SNAPSHOT</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -24,7 +24,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.3.0-SNAPSHOT</version>
         <executions>
           <execution>
             <id>shade</id>
@@ -39,6 +39,7 @@
                   <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
                 </relocation>
               </relocations>
+              <outputFile>D:\Code\java\spigotPlugins\servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
@@ -59,10 +60,16 @@
       <url>https://repo.codemc.org/repository/maven-public/</url>
     </repository>
     <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
+      <id>codemc-snapshots</id>
+      <url>https://repo.codemc.io/repository/maven-snapshots/</url>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.snapshots</id>
+      <url>https://repository.apache.org/snapshots/</url>
+    </pluginRepository>
+  </pluginRepositories>
   <dependencies>
     <dependency>
       <groupId>org.spigotmc</groupId>
@@ -74,6 +81,6 @@
   <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <server.version>1.17</server.version>
   </properties>
 </project>
-
