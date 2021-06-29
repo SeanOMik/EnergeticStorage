@@ -6,9 +6,15 @@ import net.seanomik.energeticstorage.utils.ItemSerialization;
 import net.seanomik.energeticstorage.utils.Reference;
 import net.seanomik.energeticstorage.utils.Utils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,13 +22,19 @@ import org.json.simple.parser.ParseException;
 
 import java.util.*;
 
-public class ESDrive implements Cloneable {
+public class ESDrive implements Cloneable, ConfigurationSerializable {
     private UUID uuid;
     private int size;
     private Map<ItemStack, Integer> items = new HashMap<>(); // Item, amount
 
     public ESDrive(int size) {
         this.size = size;
+    }
+
+    protected ESDrive(UUID uuid, int size, Map<ItemStack, Integer> items) {
+        this.uuid = uuid;
+        this.size = size;
+        this.items = items;
     }
 
     public ESDrive(int size, Map<ItemStack, Integer> items) {
@@ -180,5 +192,46 @@ public class ESDrive implements Cloneable {
         }
 
         return null;
+    }
+
+    // @TODO: Implement (has not been tested)
+    @NotNull
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new LinkedHashMap();
+        result.put("uuid", uuid);
+        result.put("size", size);
+
+        if (!items.isEmpty()) {
+            List<Object> itemsSerialized = new ArrayList<>();
+            for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
+                Map<String, Object> itemSerialized = new LinkedHashMap<>();
+                itemSerialized.put("amount", entry.getValue());
+                itemSerialized.put("item", entry.getKey().serialize());
+                itemsSerialized.add(itemSerialized);
+            }
+            result.put("items", itemsSerialized);
+        }
+
+        return result;
+    }
+
+    // @TODO: Implement (has not been tested)
+    @NotNull
+    public static ESDrive deserialize(@NotNull Map<String, Object> args) {
+        UUID uuid = (UUID) args.get("uuid");
+        int size = ((Number)args.get("size")).intValue();
+        Map<ItemStack, Integer> items = new HashMap<>();
+
+        if (args.containsKey("items")) {
+            Object raw = args.get("items");
+            if (raw instanceof Map) {
+                Map<?, ?> map = (Map)raw;
+
+                items.put(ItemStack.deserialize((Map<String, Object>) map.get("item")), ((Number)map.get("amount")).intValue());
+            }
+        }
+
+        return new ESDrive(uuid, size, items);
     }
 }

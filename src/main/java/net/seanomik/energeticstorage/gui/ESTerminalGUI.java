@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -88,6 +89,40 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             items = openSearches.get(player.getUniqueId());
         }
 
+        List<ItemStack> sortedKeys = new ArrayList<>(items.keySet());
+
+        switch (openSystem.getSortOrder()) {
+            case ALPHABETICAL:
+                sortedKeys.sort((i1, i2) -> {
+                    ItemMeta im1 = i1.getItemMeta();
+                    ItemMeta im2 = i2.getItemMeta();
+
+                    String name1 = im1 == null ? "" : im1.getDisplayName();
+                    if (name1.isEmpty()) {
+                        name1 = i1.getType().name();
+                    }
+
+                    String name2 = im2 == null ? "" : im2.getDisplayName();
+                    if (name2.isEmpty()) {
+                        name2 = i2.getType().name();
+                    }
+
+                    return name1.compareTo(name2);
+                });
+
+
+                break;
+            case AMOUNT:
+                Map<ItemStack, Integer> finalItems = items;
+                sortedKeys.sort((i1, i2) -> {
+                    return finalItems.get(i2).compareTo(finalItems.get(i1));
+                });
+                break;
+            case ID:
+                sortedKeys.sort(Comparator.comparing(ItemStack::getType));
+                break;
+        }
+
         for (int i = 10; i < 44; i++) {
             // Ignore the borders
             if (i == 18 || i == 27 || i == 36 || i == 17 || i == 26 || i == 35) {
@@ -102,8 +137,8 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                 int itemIndex = i - (10 + lineIndex * 2) + pageIndex * 28; // The start of a new line is + 2 boxes, with each page showing 28 items.
                 if (itemIndex < items.size()) {
                     try {
-                        ItemStack item = (ItemStack) items.keySet().toArray()[itemIndex];
-                        int amount = (int) items.values().toArray()[itemIndex];
+                        ItemStack item = sortedKeys.get(itemIndex);
+                        int amount = items.get(item);
 
                         ItemMeta itemMeta = item.getItemMeta();
                         if (itemMeta.hasLore()) {
@@ -132,7 +167,6 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             } else {
                 inv.clear(i);
             }
-
 
             inv.setItem(45, createGuiItem(Material.IRON_BARS, "Security"));
 
@@ -169,6 +203,8 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
             lore.add(ChatColor.BLUE + "Filled Items: " + spaceColor + filledSpace + ChatColor.BLUE + "/" + ChatColor.GREEN + maxSpace);
             lore.add(ChatColor.BLUE + "Filled Types: " + itemsColor + filledTypes + ChatColor.BLUE + "/" + ChatColor.GREEN + maxTypes);
             inv.setItem(46, createGuiItem(Material.CHEST, "Drives", lore));
+
+            inv.setItem(47, createGuiItem(Material.HOPPER, "Sort by " + openSystem.getSortOrder().toDisplayString()));
         }
     }
 
@@ -338,6 +374,24 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                 Reference.ES_SYSTEM_SECURITY_GUI.openInventory(player, openSystem);
             } else if (slot == 46) { // Drives
                 Reference.ES_DRIVE_GUI.openInventory(player, openSystem);
+            } else if (slot == 47) { // Sort method
+                ESSystem.SortOrder sortOrder = openSystem.getSortOrder();
+
+                // Change sort order
+                switch (sortOrder) {
+                    case ID:
+                        sortOrder = ESSystem.SortOrder.ALPHABETICAL;
+                        break;
+                    case AMOUNT:
+                        sortOrder = ESSystem.SortOrder.ID;
+                        break;
+                    case ALPHABETICAL:
+                        sortOrder = ESSystem.SortOrder.AMOUNT;
+                        break;
+                }
+
+                openSystem.setSortOrder(sortOrder);
+                initializeItems(player, openSystem);
             } else {
                 switch (clickType) {
                     case SHIFT_IN:
