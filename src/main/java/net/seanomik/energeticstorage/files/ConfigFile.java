@@ -1,6 +1,8 @@
 package net.seanomik.energeticstorage.files;
 
 import net.seanomik.energeticstorage.EnergeticStorage;
+import net.seanomik.energeticstorage.tasks.HopperTask;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -59,6 +61,16 @@ public class ConfigFile extends YamlConfiguration {
     public void reloadConfig() {
         try {
             super.load(this.configFile);
+
+            // Check if hopper input is not enabled and if the hopperTask is running. If it is, disable it.
+            // else, we enable the task.
+            if (!isHopperInputEnabled() && !EnergeticStorage.getHopperTask().isCancelled()) {
+                EnergeticStorage.getHopperTask().cancel();
+            } else if (isHopperInputEnabled() && EnergeticStorage.getHopperTask().isCancelled()) {
+                EnergeticStorage.setHopperTask(new HopperTask());
+                EnergeticStorage.getHopperTask().runTaskTimerAsynchronously(EnergeticStorage.getPlugin(), 0L, 8L);
+                //EnergeticStorage.setHopperTask(new HopperTask().runTaskTimerAsynchronously(EnergeticStorage.getPlugin(), 0L, 8L));
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -84,6 +96,8 @@ public class ConfigFile extends YamlConfiguration {
     public static int getMaxTypes() {
         return getConfig().getInt("driveMaxTypes");
     }
+
+    public static boolean isHopperInputEnabled(){return !getConfig().contains("allowHopperInput") || getConfig().getBoolean("allowHopperInput");}
 }
 
 	

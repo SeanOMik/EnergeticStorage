@@ -210,11 +210,18 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                         NBTItem clickedNBT = new NBTItem(cursor);
 
                         if (clickedNBT.hasKey("ES_Drive") && clickedNBT.getBoolean("ES_Drive")) {
-                            event.setCancelled(false);
 
                             List<ESDrive> drives = esSystem.getESDrives();
-                            drives.add(new ESDrive(cursor));
+                            if (drives.contains(null)) {
+                                drives.set(drives.indexOf(null), new ESDrive(cursor));
+                            } else {
+                                drives.add(new ESDrive(cursor));
+                            }
                             esSystem.setESDrives(drives);
+                            initializeItems(player, esSystem);
+
+                            event.setCancelled(true);
+                            cursor.setAmount(0);
                         }
                     }
                     break;

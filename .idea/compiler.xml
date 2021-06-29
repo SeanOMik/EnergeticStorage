@@ -11,7 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="EnergeticStorage" target="1.8" />
-      <module name="energeticstorage" target="8" />
+      <module name="energeticstorage" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

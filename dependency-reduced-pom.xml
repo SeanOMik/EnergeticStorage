@@ -4,7 +4,7 @@
   <groupId>net.seanomik</groupId>
   <artifactId>energeticstorage</artifactId>
   <name>EnergeticStorage</name>
-  <version>0.7-SNAPSHOT</version>
+  <version>0.7.1-SNAPSHOT</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -58,10 +58,6 @@
     <repository>
       <id>codemc-repo</id>
       <url>https://repo.codemc.org/repository/maven-public/</url>
-    </repository>
-    <repository>
-      <id>codemc-snapshots</id>
-      <url>https://repo.codemc.io/repository/maven-snapshots/</url>
     </repository>
   </repositories>
   <pluginRepositories>

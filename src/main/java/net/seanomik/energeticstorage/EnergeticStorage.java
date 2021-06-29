@@ -2,27 +2,37 @@ package net.seanomik.energeticstorage;
 
 import net.seanomik.energeticstorage.commands.ESGiveCommand;
 import net.seanomik.energeticstorage.commands.ESReloadCommand;
+import net.seanomik.energeticstorage.files.ConfigFile;
 import net.seanomik.energeticstorage.files.PlayersFile;
 import net.seanomik.energeticstorage.listeners.BlockBreakListener;
 import net.seanomik.energeticstorage.listeners.BlockPlaceListener;
 import net.seanomik.energeticstorage.listeners.PlayerInteractListener;
+import net.seanomik.energeticstorage.objects.ESSystem;
+import net.seanomik.energeticstorage.tasks.HopperTask;
 import net.seanomik.energeticstorage.utils.ItemRecipies;
 import net.seanomik.energeticstorage.utils.Reference;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Chest;
+import org.bukkit.block.data.type.Hopper;
+import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.world.WorldSaveEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
-// @TODO: Add more config options
-/*
- * Change Log:
- *  - Fix /esgive command runner from getting kicked with "Illegal Characters" error.
- *  - Fix systems that were placed on the walls.
- */
+import java.util.*;
+
 public final class EnergeticStorage extends JavaPlugin implements Listener {
     private static EnergeticStorage plugin;
+    private static HopperTask hopperTask;
 
     @Override
     public void onEnable() {
@@ -32,9 +42,15 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
         registerListener();
         ItemRecipies.registerRecipes();
 
+        ConfigFile.getConfig().saveDefaultConfig();
         PlayersFile.getConfig().saveDefaultConfig();
 
         Reference.ES_SYSTEMS = PlayersFile.getAllSystems();
+
+        if (ConfigFile.isHopperInputEnabled()) {
+            hopperTask = new HopperTask();
+            hopperTask.runTaskTimerAsynchronously(this, 0L, 8L);
+        }
     }
 
     private void registerCommands() {
@@ -59,10 +75,10 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
     }*/
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        //cachePlayersSystems(player);
+    public void onWorldSaveEvent(WorldSaveEvent event) {
+        for (Map.Entry<UUID, List<ESSystem>> systemEntry : Reference.ES_SYSTEMS.entrySet()) {
+            PlayersFile.savePlayerSystems(systemEntry.getValue());
+        }
     }
 
     @Override
@@ -72,5 +88,13 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
 
     public static EnergeticStorage getPlugin() {
         return plugin;
+    }
+
+    public static HopperTask getHopperTask() {
+        return hopperTask;
+    }
+
+    public static void setHopperTask(HopperTask hopperTask) {
+        EnergeticStorage.hopperTask = hopperTask;
     }
 }
