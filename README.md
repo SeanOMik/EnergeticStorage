@@ -5,6 +5,13 @@ Applied Energistics 2 for your SpigotMC server
 
 Energetic Storage is a plugin that is heavily inspired by a forge mod named, [Applied Energistics 2](https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2). If you dont know what Applied Energistics 2 is, its a mod that allows the player to store large amounts of items, sometimes hundreds of thousands, in just a few blocks. If you run into any issues, [create a GitHub issue!](https://github.com/SeanOMik/EnergeticStorage/issues/new) 
 
+Features:
+* Hopper Input
+* Terminal Sorting
+* Player Whitelist
+* Terminal searching
+* Balanced
+
 ## Items And Blocks:
 * 1k, 4k, 16k, and 64k, drives
     * The drives are needed to store items. 1k can store 1024 items, 4k can store 4096 and so on (1024 * how many thousand).
