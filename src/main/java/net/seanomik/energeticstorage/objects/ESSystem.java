@@ -19,7 +19,7 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
     private List<ESDrive> esDrives = new ArrayList<>();
     private List<UUID> trustedPlayers = new ArrayList<>();
     private boolean isPublic;
-    private SortOrder sortOrder;
+    private SortOrder sortOrder = SortOrder.ALPHABETICAL;
 
     public ESSystem(UUID owner, UUID uuid, Location location) {
         this.owner = owner;

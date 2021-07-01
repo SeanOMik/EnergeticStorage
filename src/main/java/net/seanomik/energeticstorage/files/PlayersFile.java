@@ -158,7 +158,12 @@ public class PlayersFile extends YamlConfiguration {
             }
 
             boolean isPublic = getConfig().getBoolean(systemPath + "public");
-            ESSystem.SortOrder sortOrder = ESSystem.SortOrder.valueOf(getConfig().getString(systemPath + "sortOrder"));
+            ESSystem.SortOrder sortOrder;
+            if (getConfig().contains(systemPath + "sortOrder")) {
+                sortOrder = ESSystem.SortOrder.valueOf(getConfig().getString(systemPath + "sortOrder"));
+            } else {
+                sortOrder = ESSystem.SortOrder.ALPHABETICAL;
+            }
 
             Location loc = Utils.convertStringToLocation(getConfig().getString(systemPath + "loc"));
             systems.add(new ESSystem(uuid, UUID.fromString(systemUUID), loc, drives, trustedUUIDs, isPublic, sortOrder));
