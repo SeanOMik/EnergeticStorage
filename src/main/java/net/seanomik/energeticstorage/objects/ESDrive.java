@@ -123,14 +123,28 @@ public class ESDrive implements Cloneable, ConfigurationSerializable {
         }
     }
 
-    public boolean isAvailable(ItemStack item) {
-        return (Utils.isItemValid(item)) ? getFilledTypes() < Reference.MAX_DRIVE_TYPES && getFilledSpace() < size : getFilledSpace() < size;
+    public boolean canAddItem(ItemStack item) {
+        if (Utils.isItemValid(item)) {
+            // If the item is valid, we're full on types, we have the item in the drive, and we're not full on space, return true.
+            // else always just cascase down and check if we have space.
+            if (Utils.containsSimilarItem(new ArrayList<>(items.keySet()), item, true)) {
+                return getFilledSpace() < size;
+            } else {
+                if (getFilledTypes() < Reference.MAX_DRIVE_TYPES) {
+                    return getFilledSpace() < size;
+                }
+
+                return false;
+            }
+        } else {
+            return getFilledSpace() < size;
+        }
     }
 
     public boolean addItem(ItemStack item) {
         item = item.clone();
 
-        if (isAvailable(item)) {
+        if (canAddItem(item)) {
             // The item is contained, then update the amount.
             if (Utils.containsSimilarItem(new ArrayList<>(items.keySet()), item, true)) {
                 int amount = (int) items.values().toArray()[Utils.indexOfSimilarItem(new ArrayList<>(items.keySet()), item)] + item.getAmount();

@@ -1,15 +1,12 @@
 package net.seanomik.energeticstorage.objects;
 
 import net.seanomik.energeticstorage.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.*;
 
 public class ESSystem implements Cloneable, ConfigurationSerializable {
@@ -144,7 +141,7 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
 
     public ESDrive getNextAvailableDrive() {
         for (ESDrive drive : esDrives) {
-            if (drive.isAvailable(null)) {
+            if (drive.canAddItem(null)) {
                 return drive;
             }
         }
@@ -155,7 +152,9 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
     public ESDrive findItemInAvailableDrive(ItemStack item) {
         for (ESDrive drive : esDrives) {
             for (ItemStack itemStack : drive.getItems().keySet()) {
-                if (item.isSimilar(itemStack) && drive.isAvailable(item)) {
+                // We don't need to check if we can add the item since if its
+                // added, then i
+                if (item.isSimilar(itemStack) && drive.canAddItem(null)) {
                     return drive;
                 }
             }
@@ -185,7 +184,7 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
     public boolean addItem(ItemStack item) {
         ESDrive drive = findItemInAvailableDrive(item);
 
-        // If we failed to find the item in the next available drive, then find another drive.
+        // If we failed to find the item in the next available drive, then find another drive to add it to.
         if (drive == null) {
             drive = getNextAvailableDrive();
 
