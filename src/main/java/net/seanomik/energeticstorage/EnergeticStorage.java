@@ -9,24 +9,12 @@ import net.seanomik.energeticstorage.listeners.BlockPlaceListener;
 import net.seanomik.energeticstorage.listeners.PlayerInteractListener;
 import net.seanomik.energeticstorage.objects.ESSystem;
 import net.seanomik.energeticstorage.tasks.HopperTask;
-import net.seanomik.energeticstorage.utils.ItemRecipies;
+import net.seanomik.energeticstorage.utils.ItemRecipes;
 import net.seanomik.energeticstorage.utils.Reference;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Chest;
-import org.bukkit.block.data.type.Hopper;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.WorldSaveEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -40,7 +28,7 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
 
         registerCommands();
         registerListener();
-        ItemRecipies.registerRecipes();
+        ItemRecipes.registerRecipes();
 
         ConfigFile.getConfig().saveDefaultConfig();
         PlayersFile.getConfig().saveDefaultConfig();
