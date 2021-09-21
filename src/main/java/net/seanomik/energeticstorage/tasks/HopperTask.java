@@ -91,35 +91,37 @@ public class HopperTask extends BukkitRunnable {
     public void run() {
         for (Map.Entry<UUID, List<ESSystem>> systemEntry : Reference.ES_SYSTEMS.entrySet()) {
             for (ESSystem system : systemEntry.getValue()) {
-                Block systemBlock = system.getLocation().getBlock();
+                if (system.getLocation().isWorldLoaded()) {
+                    Block systemBlock = system.getLocation().getBlock();
 
-                // Get all relative hoppers touching the system.
-                Map<BlockFace, Block> hoppers = getRelativeHoppers(systemBlock);
-                for (Map.Entry<BlockFace, Block> entry : hoppers.entrySet()) {
-                    Bukkit.getScheduler().runTask(EnergeticStorage.getPlugin(), () -> {
+                    // Get all relative hoppers touching the system.
+                    Map<BlockFace, Block> hoppers = getRelativeHoppers(systemBlock);
+                    for (Map.Entry<BlockFace, Block> entry : hoppers.entrySet()) {
+                        Bukkit.getScheduler().runTask(EnergeticStorage.getPlugin(), () -> {
 
-                        try {
-                            org.bukkit.block.Hopper hopper = (org.bukkit.block.Hopper) entry.getValue().getState();
-                            org.bukkit.material.Hopper hopperType = (org.bukkit.material.Hopper) hopper.getData();
-                            // Check if the hopper is facing towards the system
-                            if (isHopperInputting(hopperType, entry.getKey())) {
+                            try {
+                                org.bukkit.block.Hopper hopper = (org.bukkit.block.Hopper) entry.getValue().getState();
+                                org.bukkit.material.Hopper hopperType = (org.bukkit.material.Hopper) hopper.getData();
+                                // Check if the hopper is facing towards the system
+                                if (isHopperInputting(hopperType, entry.getKey())) {
 
-                                // Find the first non-null item in the hopper inventory and add it
-                                ItemStack firstItem = getFirstItemStack(hopper.getInventory());
-                                if (firstItem != null) {
-                                    ItemStack clonedItem = firstItem.clone();
-                                    clonedItem.setAmount(1);
+                                    // Find the first non-null item in the hopper inventory and add it
+                                    ItemStack firstItem = getFirstItemStack(hopper.getInventory());
+                                    if (firstItem != null) {
+                                        ItemStack clonedItem = firstItem.clone();
+                                        clonedItem.setAmount(1);
 
-                                    firstItem.setAmount(firstItem.getAmount() - 1);
+                                        firstItem.setAmount(firstItem.getAmount() - 1);
 
-                                    system.addItem(clonedItem);
+                                        system.addItem(clonedItem);
+                                    }
                                 }
+                            } catch (ClassCastException exception) {
+                                // Ignore exception. These exceptions are only thrown in rare occasions
+                                // that the hopper is destroyed during during this task.
                             }
-                        } catch (ClassCastException exception) {
-                            // Ignore exception. These exceptions are only thrown in rare occasions
-                            // that the hopper is destroyed during during this task.
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }
