@@ -62,16 +62,26 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
         }
     }*/
 
-    @EventHandler
-    public void onWorldSaveEvent(WorldSaveEvent event) {
+    /**
+     * Saves all player systems.
+     */
+    private void savePlayerSystems() {
         for (Map.Entry<UUID, List<ESSystem>> systemEntry : Reference.ES_SYSTEMS.entrySet()) {
             PlayersFile.savePlayerSystems(systemEntry.getValue());
         }
     }
 
+    @EventHandler
+    public void onWorldSaveEvent(WorldSaveEvent event) {
+        // Save the player systems when the world is saved
+        savePlayerSystems();
+    }
+
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        // Save the player systems on shutdown to prevent item loss
+        savePlayerSystems();
     }
 
     public static EnergeticStorage getPlugin() {
