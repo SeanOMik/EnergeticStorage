@@ -18,10 +18,15 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static net.seanomik.energeticstorage.utils.GUIHelper.createGuiItem;
 
 public class ESSystemSecurityGUI implements InventoryHolder, Listener {
     private final Inventory inv;
@@ -113,34 +118,6 @@ public class ESSystemSecurityGUI implements InventoryHolder, Listener {
             inv.setItem(48, createGuiItem(Material.PAPER, "Last page"));
             inv.setItem(50, createGuiItem(Material.PAPER, "Next page"));
         }
-    }
-
-    private ItemStack createGuiItem(Material material, String name, List<String> description) {
-        ItemStack item = new ItemStack(material, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(description);
-        item.setItemMeta(meta);
-
-        return item;
-    }
-
-    private ItemStack createGuiItem(Material material, List<String> description) {
-        ItemStack item = new ItemStack(material, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setLore(description);
-        item.setItemMeta(meta);
-
-        return item;
-    }
-
-    private ItemStack createGuiItem(Material material, String name) {
-        ItemStack item = new ItemStack(material, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        item.setItemMeta(meta);
-
-        return item;
     }
 
     public void openInventory(Player p, ESSystem esSystem) {

@@ -10,8 +10,6 @@ import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +22,15 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static net.seanomik.energeticstorage.utils.GUIHelper.createGuiItem;
 
 public class ESTerminalGUI implements InventoryHolder, Listener {
     private final Inventory globalInv;
@@ -206,25 +212,6 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
 
             inv.setItem(47, createGuiItem(Material.HOPPER, "Sort by " + openSystem.getSortOrder().toDisplayString()));
         }
-    }
-
-    private ItemStack createGuiItem(Material material, String name) {
-        ItemStack item = new ItemStack(material, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        item.setItemMeta(meta);
-
-        return item;
-    }
-
-    private ItemStack createGuiItem(Material material, String name, List<String> lore) {
-        ItemStack item = new ItemStack(material, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-
-        return item;
     }
 
     private enum ClickType {
