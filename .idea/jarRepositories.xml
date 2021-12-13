@@ -46,5 +46,10 @@
       <option name="name" value="apache.snapshots" />
       <option name="url" value="https://repository.apache.org/snapshots/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="minecraft-repo" />
+      <option name="name" value="minecraft-repo" />
+      <option name="url" value="https://libraries.minecraft.net/" />
+    </remote-repository>
   </component>
 </project>

@@ -38,8 +38,12 @@
                   <pattern>de.tr7zw.changeme.nbtapi</pattern>
                   <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
                 </relocation>
+                <relocation>
+                  <pattern>net.wesjd.anvilgui</pattern>
+                  <shadedPattern>net.seanomik.energeticstorage.anvilgui</shadedPattern>
+                </relocation>
               </relocations>
-              <outputFile>D:\Code\java\spigotPlugins\servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+              <outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
@@ -74,7 +78,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
+      <version>1.14-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

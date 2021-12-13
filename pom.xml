@@ -46,9 +46,13 @@
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
                                     <shadedPattern>de.tr7zw.nbtapi.energeticstorage</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>net.wesjd.anvilgui</pattern>
+                                    <shadedPattern>net.seanomik.energeticstorage.anvilgui</shadedPattern>
+                                </relocation>
                             </relocations>
 
-                            <outputFile>D:\Code\java\spigotPlugins\servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -84,10 +88,6 @@
             <url>https://repo.codemc.org/repository/maven-public/</url>
             <layout>default</layout>
         </repository>
-        <!--<repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-        </repository>-->
         <repository>
             <id>minecraft-repo</id>
             <url>https://libraries.minecraft.net/</url>
@@ -99,7 +99,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
+            <version>1.14-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -107,12 +107,10 @@
             <artifactId>item-nbt-api</artifactId>
             <version>2.9.0-SNAPSHOT</version>
         </dependency>
-        <!-- This is currently compiled by myself with some fixes for anything older than Java 16.
-        Its compiled from SeanOMik/AnvilGUI on github -->
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
+            <version>1.5.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>

@@ -6,12 +6,78 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="anvilgui-1_17_R1" />
+        <module name="anvilgui-1_14_4_R1" />
+        <module name="tamablefoxes-util" />
+        <module name="anvilgui-1_15_R1" />
+        <module name="anvilgui-1_7_R4" />
+        <module name="anvilgui-abstraction" />
+        <module name="tamablefoxes_v1_18_1_R1" />
+        <module name="anvilgui-1_9_R2" />
+        <module name="anvilgui-1_9_R1" />
+        <module name="tamablefoxes_v1_16_R3" />
+        <module name="anvilgui-1_11_R1" />
+        <module name="tamablefoxes_v1_16_R2" />
+        <module name="tamablefoxes_v1_14_R1" />
+        <module name="tamablefoxes_v1_16_R1" />
+        <module name="tamablefoxes" />
+        <module name="anvilgui-1_13_R1" />
+        <module name="anvilgui-1_13_R2" />
         <module name="energeticstorage" />
+        <module name="anvilgui-1_16_R1" />
+        <module name="anvilgui-1_16_R2" />
+        <module name="anvilgui-1_16_R3" />
+        <module name="anvilgui-1_14_R1" />
+        <module name="tamablefoxes_v1_17_1_R1" />
+        <module name="anvilgui-1_8_R3" />
+        <module name="anvilgui-1_8_R2" />
+        <module name="anvilgui-1_8_R1" />
+        <module name="tamablefoxes_v1_15_R1" />
+        <module name="anvilgui" />
+        <module name="anvilgui-1_10_R1" />
+        <module name="anvilgui-1_12_R1" />
+        <module name="tamablefoxes_v1_17_R1" />
+        <module name="tamablefoxes_v1_17_R1 (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="EnergeticStorage" target="1.8" />
+      <module name="anvilgui" target="1.8" />
+      <module name="anvilgui-1_10_R1" target="1.8" />
+      <module name="anvilgui-1_11_R1" target="1.8" />
+      <module name="anvilgui-1_12_R1" target="1.8" />
+      <module name="anvilgui-1_13_R1" target="1.8" />
+      <module name="anvilgui-1_13_R2" target="1.8" />
+      <module name="anvilgui-1_14_4_R1" target="1.8" />
+      <module name="anvilgui-1_14_R1" target="1.8" />
+      <module name="anvilgui-1_15_R1" target="1.8" />
+      <module name="anvilgui-1_16_R1" target="1.8" />
+      <module name="anvilgui-1_16_R2" target="1.8" />
+      <module name="anvilgui-1_16_R3" target="1.8" />
+      <module name="anvilgui-1_17_R1" target="1.8" />
+      <module name="anvilgui-1_7_R4" target="1.8" />
+      <module name="anvilgui-1_8_R1" target="1.8" />
+      <module name="anvilgui-1_8_R2" target="1.8" />
+      <module name="anvilgui-1_8_R3" target="1.8" />
+      <module name="anvilgui-1_9_R1" target="1.8" />
+      <module name="anvilgui-1_9_R2" target="1.8" />
+      <module name="anvilgui-abstraction" target="1.8" />
+      <module name="anvilgui-parent" target="1.5" />
       <module name="energeticstorage" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="tamablefoxes" options="-parameters" />
+      <module name="tamablefoxes-util" options="-parameters" />
+      <module name="tamablefoxes_v1_14_R1" options="-parameters" />
+      <module name="tamablefoxes_v1_15_R1" options="-parameters" />
+      <module name="tamablefoxes_v1_16_R1" options="-parameters" />
+      <module name="tamablefoxes_v1_16_R2" options="-parameters" />
+      <module name="tamablefoxes_v1_16_R3" options="-parameters" />
+      <module name="tamablefoxes_v1_17_1_R1" options="-parameters" />
+      <module name="tamablefoxes_v1_17_R1" options="-parameters" />
+      <module name="tamablefoxes_v1_17_R1 (1)" options="-parameters" />
+      <module name="tamablefoxes_v1_18_1_R1" options="-parameters" />
+    </option>
   </component>
 </project>
