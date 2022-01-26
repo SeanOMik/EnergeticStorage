@@ -42,8 +42,12 @@
                   <pattern>net.wesjd.anvilgui</pattern>
                   <shadedPattern>net.seanomik.energeticstorage.anvilgui</shadedPattern>
                 </relocation>
+                <relocation>
+                  <pattern>org.bstats</pattern>
+                  <shadedPattern>net.seanomik.energeticstorage.bstats</shadedPattern>
+                </relocation>
               </relocations>
-              <outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+              <outputFile>/home/seanomik/Development/java/spigot-dev/test-servers/${server.version}/plugins/EnergeticStorage-v${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>

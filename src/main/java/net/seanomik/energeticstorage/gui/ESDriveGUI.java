@@ -154,7 +154,8 @@ public class ESDriveGUI implements InventoryHolder, Listener {
             ESSystem esSystem = openSystems.get(player.getUniqueId());
 
             // Make sure no items will get copied to other players open inventory
-            Inventory inv = player.getOpenInventory().getTopInventory();
+            Inventory thisInv = player.getOpenInventory().getTopInventory();
+            Inventory playerInv = player.getInventory();
 
             // Handle type of click.
             switch (clickType) {
@@ -162,42 +163,21 @@ public class ESDriveGUI implements InventoryHolder, Listener {
                     break;
                 case SWAP:
                     break;
+                case INVENTORY_CLICK:
                 case SHIFT_IN:
+                case INTO_HALF:
+                case INTO:
                     if (Utils.isItemValid(clickedItem) && Utils.isItemADrive(clickedItem)) {
                         event.setCancelled(true);
 
-                        // Add the item into the player's inventory
-                        int driveSlot = inv.firstEmpty();
-                        ItemStack oneClicked = clickedItem.clone();
-                        oneClicked.setAmount(1);
-                        inv.setItem(driveSlot, oneClicked);
-
-                        List<ESDrive> drives = esSystem.getESDrives();
-                        drives.add(driveSlot - 2, new ESDrive(clickedItem));
-                        esSystem.setESDrives(drives);
-
-                        // Remove the item from the players inventory
-                        clickedItem.setAmount(clickedItem.getAmount() - 1);
-                    }
-                    break;
-                case INTO_HALF:
-                case INTO:
-                    if (Utils.isItemValid(cursor) && Utils.isItemADrive(cursor)) {
-                        NBTItem clickedNBT = new NBTItem(cursor);
-
-                        if (clickedNBT.hasKey("ES_Drive") && clickedNBT.getBoolean("ES_Drive")) {
+                        int firstEmpty = thisInv.firstEmpty();
+                        if (firstEmpty != -1) {
+                            thisInv.setItem(firstEmpty, clickedItem);
+                            playerInv.removeItem(clickedItem);
 
                             List<ESDrive> drives = esSystem.getESDrives();
-                            if (drives.contains(null)) {
-                                drives.set(drives.indexOf(null), new ESDrive(cursor));
-                            } else {
-                                drives.add(new ESDrive(cursor));
-                            }
+                            drives.add(new ESDrive(clickedItem));
                             esSystem.setESDrives(drives);
-                            initializeItems(player, esSystem);
-
-                            event.setCancelled(true);
-                            cursor.setAmount(0);
                         }
                     }
                     break;
@@ -209,17 +189,20 @@ public class ESDriveGUI implements InventoryHolder, Listener {
 
                         Reference.ES_TERMINAL_GUI.openInventory(player, esSystem);
                     } else if (slot != 1 && slot != 7 && slot != 8) {
-                        if (Utils.isItemADrive(clickedItem)) {
-                            List<ESDrive> drives = esSystem.getESDrives();
-                            drives.set(slot - 2, null);
-                            esSystem.setESDrives(drives);
+                        if (Utils.isItemValid(clickedItem) && Utils.isItemADrive(clickedItem)) {
+                            event.setCancelled(true);
 
-                            event.setCancelled(false);
+                            int firstEmpty = playerInv.firstEmpty();
+                            if (firstEmpty != -1) {
+                                playerInv.setItem(firstEmpty, clickedItem);
+                                thisInv.removeItem(clickedItem);
+
+                                List<ESDrive> drives = esSystem.getESDrives();
+                                drives.set(slot - 2, null);
+                                esSystem.setESDrives(drives);
+                            }
                         }
                     }
-                    break;
-                case INVENTORY_CLICK:
-                    event.setCancelled(false);
                     break;
             }
         }

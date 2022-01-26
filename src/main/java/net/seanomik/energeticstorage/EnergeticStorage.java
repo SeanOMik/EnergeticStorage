@@ -15,11 +15,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bstats.bukkit.Metrics;
 
 import java.util.*;
 
 public final class EnergeticStorage extends JavaPlugin implements Listener {
     private static EnergeticStorage plugin;
+    public static final int BSTATS_PLUGIN_ID = 14068;
     private static HopperTask hopperTask;
 
     @Override
@@ -39,6 +41,8 @@ public final class EnergeticStorage extends JavaPlugin implements Listener {
             hopperTask = new HopperTask();
             hopperTask.runTaskTimerAsynchronously(this, 0L, 8L);
         }
+
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
     }
 
     private void registerCommands() {
