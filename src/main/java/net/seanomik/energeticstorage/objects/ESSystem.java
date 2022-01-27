@@ -168,13 +168,15 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
 
         for (ESDrive drive : esDrives) {
             for (Map.Entry<ItemStack, Integer> entry : drive.getItems().entrySet()) {
-                if (items.containsKey(entry.getKey())) {
-                    // Set the ItemStack amount to the already existing item's amount + this amount
-                    entry.getKey().setAmount(Math.min(entry.getValue(), 64));
-                    items.remove(entry.getKey());
-                }
+                ItemStack sterilizedItem = ESDrive.sterilizedItem(entry.getKey());
 
-                items.put(entry.getKey(), entry.getValue());
+                if (items.containsKey(entry.getKey())) {
+                    int amount = items.get(entry.getKey());
+
+                    items.put(sterilizedItem, amount + entry.getValue());
+                } else {
+                    items.put(sterilizedItem, entry.getValue());
+                }
             }
         }
 

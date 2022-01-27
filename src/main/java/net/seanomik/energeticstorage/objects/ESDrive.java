@@ -68,6 +68,20 @@ public class ESDrive implements Cloneable, ConfigurationSerializable {
         uuid = (driveNBT.hasKey("ES_DriveUUID")) ? UUID.fromString(driveNBT.getString("ES_DriveUUID")) : UUID.randomUUID();
     }
 
+    public static ItemStack sterilizedItem(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta.hasLore()) {
+            List<String> itemLore = meta.getLore();
+            itemLore.removeIf(lore -> lore.startsWith("Amount:"));
+
+            meta.setLore(itemLore);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
     public UUID getUUID() {
         return uuid;
     }
@@ -142,7 +156,8 @@ public class ESDrive implements Cloneable, ConfigurationSerializable {
     }
 
     public boolean addItem(ItemStack item) {
-        item = item.clone();
+        // Sterilize items of the "Amount: " lore
+        item = sterilizedItem(item.clone());
 
         if (canAddItem(item)) {
             // The item is contained, then update the amount.

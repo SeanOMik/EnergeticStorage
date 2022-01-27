@@ -120,9 +120,7 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                 break;
             case AMOUNT:
                 Map<ItemStack, Integer> finalItems = items;
-                sortedKeys.sort((i1, i2) -> {
-                    return finalItems.get(i2).compareTo(finalItems.get(i1));
-                });
+                sortedKeys.sort((i1, i2) -> finalItems.get(i2).compareTo(finalItems.get(i1)));
                 break;
             case ID:
                 sortedKeys.sort(Comparator.comparing(ItemStack::getType));
