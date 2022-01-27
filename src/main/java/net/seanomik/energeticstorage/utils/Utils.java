@@ -121,6 +121,8 @@ public class Utils {
     }
 
     public static boolean listStringContainsString(List<String> list, String string) {
+        if (list == null || list.isEmpty()) return false;
+
         string = string.toLowerCase();
         for (String str : list) {
             if (str.toLowerCase().contains(string)) {

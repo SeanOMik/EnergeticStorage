@@ -321,8 +321,13 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                                     int amount = entry.getValue();
 
                                     text = text.toLowerCase();
+
                                     List<String> lore = itemMeta.getLore();
-                                    if (Utils.listStringContainsString(lore, text) || itemMeta.getDisplayName().toLowerCase().contains(text) || item.getType().toString().toLowerCase().contains(text) || item.getType().toString().toLowerCase().replace("_", " ").contains(text)) {
+                                    if (Utils.listStringContainsString(lore, text) ||
+                                            itemMeta.getLocalizedName().toLowerCase().contains(text) ||
+                                            itemMeta.getDisplayName().toLowerCase().contains(text) ||
+                                            item.getType().name().toLowerCase().contains(text) ||
+                                            item.getType().name().toLowerCase().replace("_", " ").contains(text)) {
                                         search.put(item, amount);
                                     }
                                 }
