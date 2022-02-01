@@ -452,15 +452,40 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                         }
 
                         break;
-                    case OUT_HALF:
                     case SHIFT_OUT:
+                        if (Utils.isItemValid(clickedItem)) {
+                            ItemStack toRemoveStack = clickedItem.clone();
+
+                            ItemStack addingItem = clickedItem.clone();
+                            addingItem = Utils.removeAmountFromLore(addingItem);
+
+                            HashMap<Integer, ItemStack> leftOverItems = player.getInventory().addItem(addingItem);
+                            ItemStack leftOver = leftOverItems.get(0);
+
+                            if (leftOver != null) {
+                                toRemoveStack.setAmount(toRemoveStack.getAmount() - leftOver.getAmount());
+                            }
+
+                            openSystem.removeItem(toRemoveStack);
+
+                            Bukkit.getScheduler().runTaskLater(EnergeticStorage.getPlugin(), () -> {
+                                initializeItems(player, openSystem);
+                            }, (long) 0.1);
+
+
+                            /*for (Map.Entry<Integer, ItemStack> item : leftOverItems.entrySet()) {
+                                System.out.println(item.getKey() + ", " + item.getValue());
+                            }*/
+                        }
+                        break;
+                    case OUT_HALF:
                     case OUT:
                         if (Utils.isItemValid(clickedItem)) {
                             ItemStack takingItem = clickedItem.clone();
                             takingItem.setAmount((clickType == ClickType.OUT_HALF && clickedItem.getAmount() / 2 > 0) ? clickedItem.getAmount() / 2 : clickedItem.getMaxStackSize());
 
                             takingItem = openSystem.removeItem(takingItem);
-                            // Remove the item from the search map if its in there
+                            // Remove the item from the search map if it's in there
                             if (openSearches.containsKey(player.getUniqueId())) {
                                 for (ItemStack item : openSearches.get(player.getUniqueId()).keySet()) {
                                     ItemStack clone = item.clone();

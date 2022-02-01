@@ -219,6 +219,18 @@ public class ESSystem implements Cloneable, ConfigurationSerializable {
         return drive.removeItem(item);
     }
 
+    public int getItemAmount(ItemStack item) {
+        ESDrive drive = null;
+        for (ESDrive esDrive : esDrives) {
+            for (Map.Entry<ItemStack, Integer> entry : esDrive.getItems().entrySet()) {
+                if (Utils.removeAmountFromLore(entry.getKey()).isSimilar(Utils.removeAmountFromLore(item))) {
+                    return entry.getValue();
+                }
+            }
+        }
+
+        return 0;
+    }
 
     // @TODO: Implement (has not been tested)
     @NotNull

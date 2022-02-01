@@ -191,6 +191,10 @@ public class ESDrive implements Cloneable, ConfigurationSerializable {
         return item;
     }
 
+    public int getItemAmount(ItemStack item) {
+        return (int) items.values().toArray()[Utils.indexOfSimilarItem(new ArrayList<>(items.keySet()), item)];
+    }
+
     private String exceptionMessage(Exception e) {
         return "An exception occurred in ESDrive (UUID:" + uuid + ", Exception: " + e.getMessage() + ")";
     }
