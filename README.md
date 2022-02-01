@@ -11,6 +11,7 @@ Features:
 * Player Whitelist
 * Terminal searching
 * Balanced
+* Supports 1.14.X-1.18.X
 
 ## Items And Blocks:
 * 1k, 4k, 16k, and 64k, drives
