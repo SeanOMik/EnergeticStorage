@@ -383,6 +383,22 @@ public class ESTerminalGUI implements InventoryHolder, Listener {
                 openSystem.setSortOrder(sortOrder);
                 initializeItems(player, openSystem);
             } else {
+                // Check if the player is clicking the glass panes, if they are then cancel the event.
+                if (clickedItem != null && clickedItem.hasItemMeta()) {
+                    ItemMeta meta = clickedItem.getItemMeta();
+
+                    if (meta.hasDisplayName()) {
+                        String display = meta.getDisplayName();
+
+                        if ( (display.isEmpty() || display.startsWith("To insert items, put them ")) &&
+                                (clickedItem.getType() == Material.BLACK_STAINED_GLASS_PANE || clickedItem.getType() == Material.LIME_STAINED_GLASS_PANE) ) {
+
+                            event.setCancelled(true);
+                            return;
+                        }
+                    }
+                }
+
                 switch (clickType) {
                     case SHIFT_IN:
                         if (Utils.isItemValid(clickedItem)) {
