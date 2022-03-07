@@ -4,7 +4,7 @@
   <groupId>net.seanomik</groupId>
   <artifactId>energeticstorage</artifactId>
   <name>EnergeticStorage</name>
-  <version>0.7.6-SNAPSHOT</version>
+  <version>0.7.7-SNAPSHOT</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -47,7 +47,7 @@
                   <shadedPattern>net.seanomik.energeticstorage.bstats</shadedPattern>
                 </relocation>
               </relocations>
-              <outputFile>/home/seanomik/Development/java/spigot-dev/test-servers/${server.version}/plugins/EnergeticStorage-v${project.version}.jar</outputFile>
+              <outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
