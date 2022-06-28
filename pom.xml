@@ -6,7 +6,7 @@
 
     <groupId>net.seanomik</groupId>
     <artifactId>energeticstorage</artifactId>
-    <version>0.7.6-SNAPSHOT</version>
+    <version>0.7.7-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EnergeticStorage</name>
@@ -32,7 +32,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0-SNAPSHOT</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>shade</id>
@@ -57,8 +57,8 @@
                                 </relocation>
                             </relocations>
 
-                            <!--<outputFile>/home/seanomik/Development/java/spigot-dev/test-servers/${server.version}/plugins/EnergeticStorage-v${project.version}.jar</outputFile>-->
-                            <outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>
+                            <outputFile>/mnt/d/Development/Spigot/DevServers/${server.version}/plugins/EnergeticStorage-v${project.version}.jar</outputFile>
+                            <!--<outputFile>C:\Development\Java\Spigot Servers\${server.version}\plugins\EnergeticStorage-v${project.version}.jar</outputFile>-->
                         </configuration>
                     </execution>
                 </executions>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.9.2-SNAPSHOT</version>
+            <version>2.10.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.wesjd</groupId>
